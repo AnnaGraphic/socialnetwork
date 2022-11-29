@@ -75,15 +75,13 @@ app.post("/register", (req, res) => {
             req.session.userId = userData.id;
             //check if userdata is empty
             //res.redirect("/Welcome");
-            if (req.session.userId) {
-                res.json({ success: true });
-                //res.redirect("/Welcome"); happens in the component
-            } else {
-                res.json({ success: false });
-            }
+
+            res.json({ success: true });
+            //res.redirect("/Welcome"); happens in the component
         })
         .catch((err) => {
             console.log("error in register post: ", err);
+            res.json({ success: false });
         });
 });
 
@@ -99,6 +97,21 @@ app.post("/login", (req, res) => {
         })
         .catch((err) => {
             console.log("pwd mail", err.message);
+            res.json({ success: false });
+        });
+});
+
+// +++ logout +++
+
+app.post("/logout", (req, res) => {
+    console
+        .log("login POST:", req.body)
+        .then((user) => {
+            req.session = null;
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log("logout", err.message);
             res.json({ success: false });
         });
 });

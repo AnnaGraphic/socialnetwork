@@ -4,11 +4,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Registration from "./Registration";
 import Login from "./Login";
+import ResetPassword from "./ResetPassword";
 
 export default function Welcome() {
     return (
         <div id="welcome">
-            <img id="logo" src="/logo.png" />
+            <img className="logo" src="/logo.png" />
             <h1>Welcome!</h1>
             <div>
                 <BrowserRouter>
@@ -19,6 +20,10 @@ export default function Welcome() {
                             element={<Registration />}
                         ></Route>
                         <Route path="/login" element={<Login />}></Route>
+                        <Route
+                            path="/resetpassword"
+                            element={<ResetPassword />}
+                        ></Route>
                     </Routes>
                 </BrowserRouter>
             </div>
