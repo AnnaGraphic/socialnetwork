@@ -3,8 +3,8 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
-#logo {
-    width: 50 px;
+.logo {
+    width: 50px;
 }
 h1 {
     color: rgb(238, 68, 5);

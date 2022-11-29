@@ -1,7 +1,11 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Login extends Component {
+    //constructor wird immer aufgerufen, wenn du eine Instanz deiner Klasse kreirst
+
     constructor(props) {
+        // ruft constructor von Elternklasse Component auf
         super(props);
 
         this.state = {
@@ -69,6 +73,10 @@ export default class Login extends Component {
                         log in
                     </button>
                 </div>
+                <p>
+                    forgot password&nbsp;
+                    <Link to="/resetpassword">reset password</Link>
+                </p>
             </div>
         );
     }
