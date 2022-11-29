@@ -39,3 +39,25 @@ module.exports.insertRegistration = ({
         })
         .catch((err) => console.log(err));
 };
+
+function findUserByEmail(email) {
+    return db
+        .query("SELECT * FROM users WHERE email=$1", [email])
+        .then((results) => {
+            console.log("query finduserbymail: ", results.rows);
+            if (results.rows.length == 0) {
+                throw new Error("email does not exist");
+            }
+            return results.rows[0];
+        })
+        .catch((err) => console.log(err));
+}
+
+module.exports.authenticateUser = ({ email, password }) => {
+    return findUserByEmail(email).then((user) => {
+        if (!bcrypt.compareSync(password, user.pwd_hash)) {
+            throw new Error("password incorrect");
+        }
+        return user;
+    });
+};

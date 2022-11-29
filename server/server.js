@@ -24,7 +24,7 @@ app.use(
     cookieSession({
         secret: `${SECRET}`,
         maxAge: 1000 * 60 ** 24 * 14,
-        name: "petition-cookie",
+        name: "socialnetwork-cookie",
     })
 );
 
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     console.log("req.url:", req.url);
     console.log("req.method:", req.method);
     console.log("req.session:", req.session);
-    console.log("req.session.user_id:", req.session.user_id);
+    console.log("req.session.userId:", req.session.userId);
     console.log("---------------------");
     next();
 });
@@ -64,7 +64,6 @@ app.post("/register", (req, res) => {
     console.log("register POST", req.body);
     const { firstName, lastName, email, password } = req.body;
 
-    // console.log("firstnamesignup", firstnameSignup);
     db.insertRegistration({
         first_name: firstName,
         last_name: lastName,
@@ -73,18 +72,39 @@ app.post("/register", (req, res) => {
     })
         .then((userData) => {
             console.log("user data insertReg", userData);
-            req.session.user_id = userData.id;
-            res.redirect("/Welcome");
+            req.session.userId = userData.id;
+            //check if userdata is empty
+            //res.redirect("/Welcome");
+            if (req.session.userId) {
+                res.json({ success: true });
+                //res.redirect("/Welcome"); happens in the component
+            } else {
+                res.json({ success: false });
+            }
         })
         .catch((err) => {
-            console.log("error in signup post: ", err);
-            res.render("login", {
-                err: err.message,
-            });
+            console.log("error in register post: ", err);
+        });
+});
+
+// +++ login +++
+
+app.post("/login", (req, res) => {
+    console.log("login POST:", req.body);
+    const { email, password } = req.body;
+    db.authenticateUser({ email: email, password: password })
+        .then((user) => {
+            req.session.userId = user.id;
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log("pwd mail", err.message);
+            res.json({ success: false });
         });
 });
 
 // +++ all routes +++
+
 app.get("*", function (req, res) {
     //was ist "..", "client"?
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
