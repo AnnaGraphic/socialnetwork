@@ -13,12 +13,7 @@ const db = spicedPg(
         `postgres:postgres:postgres@localhost:5432/${database}`
 );
 
-module.exports.insertRegistration = ({
-    first_name,
-    last_name,
-    email,
-    password,
-}) => {
+function insertRegistration({ first_name, last_name, email, password }) {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(password, salt);
     return db
@@ -38,9 +33,9 @@ module.exports.insertRegistration = ({
             return result.rows[0];
         })
         .catch((err) => console.log(err));
-};
+}
 
-module.exports.findUserByEmail = (email) => {
+function findUserByEmail(email) {
     return db
         .query("SELECT * FROM users WHERE email=$1", [email])
         .then((results) => {
@@ -51,13 +46,32 @@ module.exports.findUserByEmail = (email) => {
             return results.rows[0];
         })
         .catch((err) => console.log(err));
-};
+}
 
-module.exports.authenticateUser = ({ email, password }) => {
+function findUserById(userId) {
+    return db
+        .query("SELECT * FROM users WHERE id=$1", [userId])
+        .then((results) => {
+            console.log("query finduserbyid: ", results.rows);
+            if (results.rows.length == 0) {
+                throw new Error("upsi");
+            }
+            return results.rows[0];
+        })
+        .catch((err) => console.log(err));
+}
+
+function authenticateUser({ email, password }) {
     return findUserByEmail(email).then((user) => {
         if (!bcrypt.compareSync(password, user.pwd_hash)) {
             throw new Error("password incorrect");
         }
         return user;
     });
+}
+module.exports = {
+    findUserById,
+    insertRegistration,
+    findUserByEmail,
+    authenticateUser,
 };

@@ -1,6 +1,11 @@
 //require("dotnv").config():
 const express = require("express");
-const db = require("./db");
+const {
+    insertRegistration,
+    findUserByEmail,
+    authenticateUser,
+    findUserById,
+} = require("./db");
 const app = express();
 const compression = require("compression");
 const path = require("path");
@@ -66,7 +71,7 @@ app.post("/register", (req, res) => {
     console.log("register POST", req.body);
     const { firstName, lastName, email, password } = req.body;
 
-    db.insertRegistration({
+    insertRegistration({
         first_name: firstName,
         last_name: lastName,
         email: email,
@@ -92,7 +97,7 @@ app.post("/resetpassword", (req, res) => {
     console.log("resetpassword POST:", req.body);
     const { email } = req.body;
     console.log("email", email);
-    db.findUserByEmail(email)
+    findUserByEmail(email)
         .then((res) => {
             if (res) {
                 //find a good if condition for this
@@ -118,7 +123,7 @@ app.post("/resetpassword", (req, res) => {
 app.post("/login", (req, res) => {
     console.log("login POST:", req.body);
     const { email, password } = req.body;
-    db.authenticateUser({ email: email, password: password })
+    authenticateUser({ email: email, password: password })
         .then((user) => {
             req.session.userId = user.id;
             res.json({ success: true });
@@ -142,6 +147,17 @@ app.post("/logout", (req, res) => {
             console.log("logout", err.message);
             res.json({ success: false });
         });
+});
+
+// +++ user +++
+app.get("/user", (req, res) => {
+    //  const { firstName, lastName, email, password, profilepicurl } = req.body;
+    const id = req.session.userId;
+    console.log("get req in /user");
+    findUserById(id).then((user) => {
+        console.log(user);
+        res.json(user);
+    });
 });
 
 // +++ all routes +++
