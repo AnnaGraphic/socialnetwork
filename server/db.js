@@ -40,7 +40,7 @@ module.exports.insertRegistration = ({
         .catch((err) => console.log(err));
 };
 
-function findUserByEmail(email) {
+module.exports.findUserByEmail = (email) => {
     return db
         .query("SELECT * FROM users WHERE email=$1", [email])
         .then((results) => {
@@ -51,7 +51,7 @@ function findUserByEmail(email) {
             return results.rows[0];
         })
         .catch((err) => console.log(err));
-}
+};
 
 module.exports.authenticateUser = ({ email, password }) => {
     return findUserByEmail(email).then((user) => {

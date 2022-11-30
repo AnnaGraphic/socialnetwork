@@ -8,6 +8,7 @@ const fs = require("fs");
 //3000 wil proxy on 3001
 const { PORT = 3001 } = process.env;
 const { SECRET } = process.env;
+const ses = require("./ses");
 
 //COOKIES
 const cookieParser = require("cookie-parser");
@@ -82,6 +83,30 @@ app.post("/register", (req, res) => {
         .catch((err) => {
             console.log("error in register post: ", err);
             res.json({ success: false });
+        });
+});
+
+// +++ reset password +++
+app.post("/resetpassword", (req, res) => {
+    console.log("resetpassword POST:", req.body);
+    const { email } = req.body;
+    console.log("email", email);
+    db.findUserByEmail(email)
+        .then((res) => {
+            if (res) {
+                console.log("resetpwd res", res);
+                ses.sendResetCode().then(() => {
+                    //console.log("reset code", ses.cryptoRandomString);
+                });
+            } else {
+                //res.json({ display: naechster state? })?
+                console.log("hier kommt mal ein keycode");
+            }
+            console.log("postrsetpwd res", res);
+        })
+        .catch((err) => {
+            console.log("pwd reset err", err);
+            // res.json({ success: false });
         });
 });
 
