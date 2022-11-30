@@ -8,12 +8,16 @@ export default class App extends Component {
         // why bind?
         // this.openUploader = this.openUploader.bind(this);
     }
-
+    // +++ methods +++
     openUploader() {
         this.setState({ isUploderVisible: true });
     }
 
-    //closiing function closeUploader
+    //closing function closeUploader
+
+    componentDidMount() {
+        //make get request
+    }
 
     render() {
         //fragment tag

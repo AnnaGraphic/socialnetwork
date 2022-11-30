@@ -8,3 +8,10 @@ CREATE TABLE users (
     pwd_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE reset_code (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    email VARCHAR(255) NOT NULL --UNIQUE necessary?
+);

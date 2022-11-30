@@ -8,6 +8,7 @@ const fs = require("fs");
 //3000 wil proxy on 3001
 const { PORT = 3001 } = process.env;
 const { SECRET } = process.env;
+//ses-creds not working
 const ses = require("./ses");
 
 //COOKIES
@@ -94,13 +95,15 @@ app.post("/resetpassword", (req, res) => {
     db.findUserByEmail(email)
         .then((res) => {
             if (res) {
+                //find a good if condition for this
                 console.log("resetpwd res", res);
-                ses.sendResetCode().then(() => {
-                    //console.log("reset code", ses.cryptoRandomString);
-                });
-            } else {
+                //ses-creds not working!
+                // ses.sendResetCode().then(() => {
+                console.log("reset code", ses.cryptoRandomString);
+                // });
                 //res.json({ display: naechster state? })?
-                console.log("hier kommt mal ein keycode");
+            } else {
+                console.log("something wrong");
             }
             console.log("postrsetpwd res", res);
         })

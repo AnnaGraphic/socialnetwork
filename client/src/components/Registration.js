@@ -44,6 +44,9 @@ export default class Registration extends Component {
                     this.setState({ error: "plz fill in correctly" });
                     //update state to make error appear, also for catch
                 }
+            })
+            .catch((err) => {
+                console.log("registration", err.message);
             });
     }
 
