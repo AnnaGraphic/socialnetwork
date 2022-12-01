@@ -15,6 +15,7 @@ const { PORT = 3001 } = process.env;
 const { SECRET } = process.env;
 //ses-creds not working
 const ses = require("./ses");
+const { uploader } = require("./multer");
 
 //COOKIES
 const cookieParser = require("cookie-parser");
@@ -55,10 +56,6 @@ app.use((req, res, next) => {
 ////ROUTES
 
 app.get("/user/id.json", (req, res) => {
-    // ..
-    //respond with json-format!
-    //{userId: xy }
-    // res.json({ userId: 99 });
     res.json({
         userId: req.session.userId,
     });
@@ -158,6 +155,40 @@ app.get("/user", (req, res) => {
         console.log(user);
         res.json(user);
     });
+});
+
+// +++ uplode profPic +++
+app.post("/profilepic", uploader.single("file"), (req, res) => {
+    //req.file comes via multer. multer saves the pics in /uploads
+    console.log("req.file", req.file);
+    console.log("req.body", req.body);
+    //body comes from ProfilePic?.js
+
+    // const { filename, mimetype, size, path } = req.file;
+
+    // s3.putObject({
+    //     Bucket: "spicedling",
+    //     ACL: "public-read",
+    //     Key: filename,
+    //     Body: fs.createReadStream(path),
+    //     ContentType: mimetype,
+    //     ContentLength: size,
+    // })
+    //     .promise()
+    //     .then(() => {
+    //         db.addImage({
+    //             url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
+    //             title: req.body.title,
+    //             description: req.body.description,
+    //             username: req.body.username,
+    //         }).then((image) => {
+    //             res.json(image);
+    // });
+    // })
+    // .catch((err) => {
+    //     // uh oh
+    //     console.log(err);
+    // });
 });
 
 // +++ all routes +++

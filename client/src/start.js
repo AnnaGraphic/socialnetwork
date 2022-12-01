@@ -1,7 +1,6 @@
 import { createRoot } from "react-dom/client";
 import Welcome from "./components/Welcome";
 import App from "./components/App";
-import Login from "./components/Login";
 
 const root = createRoot(document.querySelector("main"));
 

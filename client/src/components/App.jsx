@@ -1,25 +1,31 @@
 import { Component } from "react";
 import Logo from "./Logo";
 import ProfilePic from "./ProfilePic";
+import Upload from "./Upload.jsx";
 
 export default class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isUploaderVisible: false,
             currentUser: null,
         };
         // why bind?
-        // this.openUploader = this.openUploader.bind(this);
+        this.openUploader = this.openUploader.bind(this);
+        this.closeUploader = this.closeUploader.bind(this);
     }
     // +++ methods +++
     openUploader() {
-        this.setState({ isUploderVisible: true });
+        console.log("openUploader");
+        this.setState({ isUploaderVisible: true });
+    }
+    closeUploader() {
+        this.setState({ isUploaderVisible: false });
     }
 
-    //closing function closeUploader
+    // uploadImage() { use FormData API to send file to the server}
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         fetch("/user")
             .then((res) => res.json())
             .then((user) => {
@@ -34,10 +40,19 @@ export default class App extends Component {
         return (
             <div className="App">
                 <Logo />
-                {/* hier definiere ich die propertys fuer die komponente */}
-                <ProfilePic user={this.state.currentUser} />
+                {/* hier definiere ich die properties fuer die komponente */}
+
+                <ProfilePic
+                    clickHandler={this.openUploader}
+                    user={this.state.currentUser}
+                />
+                {this.state.isUploaderVisible && (
+                    <Upload
+                        clickHandler={this.closeUploader}
+                        user={this.state.currentUser}
+                    />
+                )}
             </div>
         );
-        // uploader closeUploader={}
     }
 }

@@ -6,12 +6,14 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL CHECK (last_name != ''),
     email VARCHAR(255) NOT NULL UNIQUE,
     pwd_hash VARCHAR(255) NOT NULL,
+    profilepic_url VARCHAR,
+    bio VARCHAR,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE reset_code (
     id SERIAL PRIMARY KEY,
     code VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(255) NOT NULL --UNIQUE necessary?
 );

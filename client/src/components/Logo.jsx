@@ -8,7 +8,7 @@ export default class Logo extends Component {
         //fragment tag
         return (
             <div>
-                <h1>Logo</h1>
+                <img className="logo" src="/logo.png" />
             </div>
         );
     }
