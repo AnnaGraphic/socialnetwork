@@ -69,9 +69,25 @@ function authenticateUser({ email, password }) {
         return user;
     });
 }
+
+function addProfilePic(url, id) {
+    return db
+        .query(
+            `UPDATE users 
+            SET profilepic_url=$1 WHERE id=$2 (profilepic_url, id)
+    VALUES ($1, $2,)
+    RETURNING *`,
+            [url, id]
+        )
+        .then((result) => {
+            return result.rows[0];
+        });
+}
+
 module.exports = {
     findUserById,
     insertRegistration,
     findUserByEmail,
     authenticateUser,
+    addProfilePic,
 };

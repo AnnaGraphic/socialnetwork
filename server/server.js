@@ -5,6 +5,7 @@ const {
     findUserByEmail,
     authenticateUser,
     findUserById,
+    addProfilePic,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -16,15 +17,18 @@ const { SECRET } = process.env;
 //ses-creds not working
 const ses = require("./ses");
 const { uploader } = require("./multer");
+const { s3 } = require("./s3");
+const { AppIntegrations } = require("aws-sdk");
+
+// console.log("s3", s3);
 
 //COOKIES
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 
 //MIDDLEWARE
-app.use("/", express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "..", "client", "public")));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
 // causes session-object to be stringified, base64 encoded , and written to a cookie,
 // then decode, parse and attach to req-obj
 //Tampering is prevented because of a second cookie that is auto added.
@@ -40,8 +44,6 @@ app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 // json parser
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.use((req, res, next) => {
     console.log("---------------------");
@@ -164,31 +166,31 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
     console.log("req.body", req.body);
     //body comes from ProfilePic?.js
 
-    // const { filename, mimetype, size, path } = req.file;
+    const { filename, mimetype, size, path } = req.file;
 
-    // s3.putObject({
-    //     Bucket: "spicedling",
-    //     ACL: "public-read",
-    //     Key: filename,
-    //     Body: fs.createReadStream(path),
-    //     ContentType: mimetype,
-    //     ContentLength: size,
-    // })
-    //     .promise()
-    //     .then(() => {
-    //         db.addImage({
-    //             url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
-    //             title: req.body.title,
-    //             description: req.body.description,
-    //             username: req.body.username,
-    //         }).then((image) => {
-    //             res.json(image);
-    // });
-    // })
-    // .catch((err) => {
-    //     // uh oh
-    //     console.log(err);
-    // });
+    s3.putObject({
+        Bucket: "spicedling",
+        ACL: "public-read",
+        Key: filename,
+        Body: fs.createReadStream(path),
+        ContentType: mimetype,
+        ContentLength: size,
+    })
+        .promise()
+        .then(() => {
+            addProfilePic({
+                url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
+                // is it .id?
+                id: req.body.id,
+            }).then((image) => {
+                console.log("image", image);
+                res.json(image);
+            });
+        })
+        .catch((err) => {
+            // uh oh
+            console.log(err);
+        });
 });
 
 // +++ all routes +++

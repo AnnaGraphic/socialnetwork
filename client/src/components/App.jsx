@@ -23,8 +23,6 @@ export default class App extends Component {
         this.setState({ isUploaderVisible: false });
     }
 
-    // uploadImage() { use FormData API to send file to the server}
-
     componentDidMount() {
         fetch("/user")
             .then((res) => res.json())
@@ -39,9 +37,10 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <Logo />
-                {/* hier definiere ich die properties fuer die komponente */}
-
+                <header>
+                    <Logo /> <h1> 🐼 🔥 🌟 💔 PandaUnsozial 🐼 🦞 ✨ 💔</h1>
+                    {/* hier definiere ich die properties fuer die komponente */}
+                </header>
                 <ProfilePic
                     clickHandler={this.openUploader}
                     user={this.state.currentUser}
