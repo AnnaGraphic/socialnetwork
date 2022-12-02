@@ -164,7 +164,6 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
     //req.file comes via multer. multer saves the pics in /uploads
     console.log("req.file", req.file);
     console.log("req.body", req.body);
-    //body comes from ProfilePic?.js
 
     const { filename, mimetype, size, path } = req.file;
 
@@ -176,7 +175,7 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
         ContentType: mimetype,
         ContentLength: size,
     })
-        .promise()
+
         .then(() => {
             addProfilePic({
                 url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
@@ -184,7 +183,7 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
                 id: req.body.id,
             }).then((image) => {
                 console.log("image", image);
-                res.json(image);
+                res.json({ success: true, image });
             });
         })
         .catch((err) => {

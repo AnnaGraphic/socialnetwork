@@ -5,12 +5,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Registration from "./Registration";
 import Login from "./Login";
 import ResetPassword from "./ResetPassword";
+import Logo from "./Logo";
 
 export default function Welcome() {
     return (
         <div id="welcome">
-            <img className="logo" src="/logo.png" />
+            <header>
+                <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
+            </header>
             <h1>Welcome!</h1>
+
             <div>
                 <BrowserRouter>
                     <Routes>

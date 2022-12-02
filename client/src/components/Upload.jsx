@@ -15,18 +15,14 @@ function ImageUploader(props) {
                 return res.json();
             })
             .then((result) => {
-                this.setState(
-                    {
-                        userData: {
-                            ...this.state.userData,
-                            profilePicUrl: result.url,
-                        },
-                    },
-                    () => {
-                        console.log(this.state);
-                    }
-                );
-                // hier modal schliessen? this.closeUploader();
+                console.log("/profilepic results", result);
+                if (result.success) {
+                    props.handleSuccess(result.url);
+                } else {
+                    console.log("result: ", result);
+                    //"success false"
+                    // fuer function-componenten? this.setState({ error: "something went wrong" });
+                }
             });
     }
     return (
@@ -38,7 +34,7 @@ function ImageUploader(props) {
                         type="file"
                         accept="image/png, image/jpeg"
                         name="profilePic"
-                        placeholder="chose image ..."
+                        placeholder="choose image ..."
                     ></input>
                 </div>
                 <div>

@@ -2,6 +2,7 @@ import { Component } from "react";
 import Logo from "./Logo";
 import ProfilePic from "./ProfilePic";
 import Upload from "./Upload.jsx";
+import Profile from "./Profile.jsx";
 
 export default class App extends Component {
     constructor(props) {
@@ -23,6 +24,21 @@ export default class App extends Component {
         this.setState({ isUploaderVisible: false });
     }
 
+    profilePicUploaded(url) {
+        this.setState(
+            {
+                userData: {
+                    ...this.state.userData,
+                    profilePicUrl: url,
+                },
+            },
+            () => {
+                console.log(this.state);
+                this.closeUploader();
+            }
+        );
+    }
+
     componentDidMount() {
         fetch("/user")
             .then((res) => res.json())
@@ -38,16 +54,17 @@ export default class App extends Component {
         return (
             <div className="App">
                 <header>
-                    <Logo /> <h1> 🐼 🔥 🌟 💔 PandaUnsozial 🐼 🦞 ✨ 💔</h1>
-                    {/* hier definiere ich die properties fuer die komponente */}
+                    <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
                 </header>
+                <Profile></Profile>
                 <ProfilePic
                     clickHandler={this.openUploader}
                     user={this.state.currentUser}
                 />
+
                 {this.state.isUploaderVisible && (
                     <Upload
-                        clickHandler={this.closeUploader}
+                        handleSuccess={(url) => this.profilePicUploaded(url)}
                         user={this.state.currentUser}
                     />
                 )}

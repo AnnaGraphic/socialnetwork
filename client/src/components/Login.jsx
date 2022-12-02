@@ -74,8 +74,9 @@ export default class Login extends Component {
                     </button>
                 </div>
                 <p>
-                    forgot password&nbsp;
-                    <Link to="/resetpassword">reset password</Link>
+                    forgot password? this is just what pandas do. reset
+                    password&nbsp;
+                    <Link to="/resetpassword">here</Link>.
                 </p>
             </div>
         );

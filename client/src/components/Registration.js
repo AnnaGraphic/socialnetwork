@@ -53,7 +53,9 @@ export default class Registration extends Component {
     render() {
         return (
             <div>
-                <h1>This is the registration component</h1>
+                <h1>Register here</h1>
+
+                <p>and join the network of latin speaking pandas</p>
                 <div className="error">{this.state.error}</div>
                 <div>
                     <input
