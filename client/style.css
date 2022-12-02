@@ -1,6 +1,10 @@
+* {
+    font-family: "Solway", serif;
+}
+
 body {
     background-color: pink;
-    font-family: Helvetica, sans-serif;
+
     padding: 0;
     margin: 0;
 }
@@ -15,7 +19,7 @@ header {
     justify-content: center;
 }
 .logo {
-    width: 50px;
+    width: 80px;
 }
 .profilePic {
     width: 50px;
@@ -23,8 +27,11 @@ header {
 h1 {
     color: rgb(238, 68, 5);
     font-size: large;
+    font-family: "Solawy", bold;
 }
-
+p {
+    font-family: Helvetica, sans-serif;
+}
 .modal {
     position: fixed;
     height: 100%;
