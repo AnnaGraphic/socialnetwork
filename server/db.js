@@ -83,7 +83,21 @@ function addProfilePic({ url, id }) {
         });
 }
 
+function updateBio({ bio, id }) {
+    return db
+        .query(
+            `UPDATE users 
+            SET bio=$1 WHERE id=$2
+    RETURNING *`,
+            [bio, id]
+        )
+        .then((result) => {
+            return result.rows[0];
+        });
+}
+
 module.exports = {
+    updateBio,
     findUserById,
     insertRegistration,
     findUserByEmail,
