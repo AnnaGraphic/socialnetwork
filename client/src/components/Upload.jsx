@@ -15,9 +15,9 @@ function ImageUploader(props) {
                 return res.json();
             })
             .then((result) => {
-                console.log("/profilepic results", result);
+                console.log("/profilepic results", result.image);
                 if (result.success) {
-                    props.handleSuccess(result.url);
+                    props.handleSuccess(result.image);
                 } else {
                     console.log("result: ", result);
                     //"success false"

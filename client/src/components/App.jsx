@@ -25,11 +25,12 @@ export default class App extends Component {
     }
 
     profilePicUploaded(url) {
+        console.log("profilePic", url);
         this.setState(
             {
-                userData: {
-                    ...this.state.userData,
-                    profilePicUrl: url,
+                currentUser: {
+                    ...this.state.currentUser,
+                    profilepic_url: url,
                 },
             },
             () => {
@@ -56,11 +57,10 @@ export default class App extends Component {
                 <header>
                     <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
                 </header>
-                <Profile></Profile>
-                <ProfilePic
+                <Profile
                     clickHandler={this.openUploader}
                     user={this.state.currentUser}
-                />
+                ></Profile>
 
                 {this.state.isUploaderVisible && (
                     <Upload

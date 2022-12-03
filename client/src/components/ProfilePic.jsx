@@ -11,7 +11,7 @@ export default class ProfilePic extends Component {
 
     render() {
         const profilepic =
-            this.props.user?.profilepic || "/default_usericon_1.png";
+            this.props.user?.profilepic_url || "/default_usericon_1.png";
         return (
             <div>
                 {this.props.user && (
@@ -23,7 +23,7 @@ export default class ProfilePic extends Component {
                         alt={`${this.props.user.first_name} ${this.props.user.last_name}`}
                     />
                 )}
-                {/* if truish than render  */}
+                {/* if truthy than render  */}
                 {this.props.user && (
                     <p>
                         {this.props.user.first_name} {this.props.user.last_name}

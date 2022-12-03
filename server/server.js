@@ -175,15 +175,14 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
         ContentType: mimetype,
         ContentLength: size,
     })
-
+        .promise()
         .then(() => {
-            addProfilePic({
+            return addProfilePic({
                 url: `https://s3.amazonaws.com/spicedling/${req.file.filename}`,
                 // is it .id?
-                id: req.body.id,
-            }).then((image) => {
-                console.log("image", image);
-                res.json({ success: true, image });
+                id: req.session.userId,
+            }).then((user) => {
+                res.json({ success: true, image: user.profilepic_url });
             });
         })
         .catch((err) => {

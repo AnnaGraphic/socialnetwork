@@ -1,8 +1,14 @@
+import ProfilePic from "./ProfilePic";
 function Profile(props) {
     return (
         <div>
             <p>profile</p>
-            <div></div>
+            <div>
+                <ProfilePic
+                    clickHandler={props.clickHandler}
+                    user={props.user}
+                />
+            </div>
         </div>
     );
 }

@@ -70,12 +70,11 @@ function authenticateUser({ email, password }) {
     });
 }
 
-function addProfilePic(url, id) {
+function addProfilePic({ url, id }) {
     return db
         .query(
             `UPDATE users 
-            SET profilepic_url=$1 WHERE id=$2 (profilepic_url, id)
-    VALUES ($1, $2,)
+            SET profilepic_url=$1 WHERE id=$2
     RETURNING *`,
             [url, id]
         )
