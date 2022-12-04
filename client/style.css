@@ -4,7 +4,6 @@
 
 body {
     background-color: pink;
-
     padding: 0;
     margin: 0;
 }
@@ -18,8 +17,34 @@ header {
     display: flex;
     justify-content: center;
 }
+.navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.welcomeCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* font-size: 3rem; */
+    /* color: black;
+    box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem,
+        rgba(3, 8, 20, 0.1) 0px 0.075rem 0.175rem; */
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    transition: all 500ms;
+    overflow: hidden;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .logo {
     width: 80px;
+    height: fit-content;
 }
 .profilePic {
     width: 50px;
@@ -30,7 +55,7 @@ h1 {
     font-family: "Solawy", bold;
 }
 p {
-    font-family: Helvetica, sans-serif;
+    font-size: medium;
 }
 .modal {
     position: fixed;

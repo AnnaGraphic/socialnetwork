@@ -57,7 +57,7 @@ export default class Logout extends Component {
                     // needed when setState? -> location.reload();
                 } else {
                     console.log(
-                        "ResetWassword handle submit2 response",
+                        "Resetpassword handle submit2 response",
                         response
                     );
                     this.setState({ error: "email not found", display: null });

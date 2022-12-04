@@ -13,9 +13,9 @@ export default function Welcome() {
             <header>
                 <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
             </header>
-            <h1>Welcome!</h1>
 
-            <div>
+            <div className="welcomeCard">
+                <h1>Welcome!</h1>
                 <BrowserRouter>
                     <Routes>
                         <Route
