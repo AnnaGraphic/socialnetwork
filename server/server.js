@@ -1,6 +1,7 @@
 //require("dotnv").config():
 const express = require("express");
 const {
+    updateBio,
     insertRegistration,
     findUserByEmail,
     authenticateUser,
@@ -184,6 +185,19 @@ app.post("/profilepic", uploader.single("file"), (req, res) => {
             }).then((user) => {
                 res.json({ success: true, image: user.profilepic_url });
             });
+        })
+        .catch((err) => {
+            // uh oh
+            console.log(err);
+        });
+});
+
+// +++ edit bio +++
+app.post("/editbio", (req, res) => {
+    console.log("req.body", req.body);
+    updateBio({ bio: req.body.inputBio, id: req.session.userId })
+        .then((user) => {
+            res.json({ success: true });
         })
         .catch((err) => {
             // uh oh

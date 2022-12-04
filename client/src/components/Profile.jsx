@@ -1,4 +1,5 @@
 import ProfilePic from "./ProfilePic";
+import Bio from "./Bio";
 function Profile(props) {
     return (
         <div>
@@ -8,6 +9,7 @@ function Profile(props) {
                     clickHandler={props.clickHandler}
                     user={props.user}
                 />
+                <Bio user={props.user} />
             </div>
         </div>
     );
