@@ -25,7 +25,7 @@ export default class App extends Component {
     }
 
     profilePicUploaded(url) {
-        console.log("profilePic", url);
+        //console.log("profilePic", url);
         this.setState(
             {
                 currentUser: {
@@ -44,7 +44,7 @@ export default class App extends Component {
         fetch("/user")
             .then((res) => res.json())
             .then((user) => {
-                //   console.log("user", user);
+                console.log("user", user);
                 this.setState({
                     currentUser: user,
                 });

@@ -22,8 +22,8 @@ export default class Registration extends Component {
     }
 
     handleSubmit() {
-        console.log("About to submit the form!");
-        console.log(this.state);
+        //console.log("About to submit the form!");
+        //console.log(this.state);
         fetch("/register", {
             method: "POST",
             // to send json body in a post, headers is required

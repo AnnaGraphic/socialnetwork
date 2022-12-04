@@ -6,10 +6,6 @@ import { Component } from "react";
 export default class Logo extends Component {
     render() {
         //fragment tag
-        return (
-            <div>
-                <img className="logo" src="/logo.png" />
-            </div>
-        );
+        return <img className="logo" src="/logo.png" />;
     }
 }
