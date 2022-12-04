@@ -9,7 +9,7 @@ function Profile(props) {
                     clickHandler={props.clickHandler}
                     user={props.user}
                 />
-                <Bio user={props.user} />
+                <Bio user={props.user} bioUpdate={props.bioUpdate} />
             </div>
         </div>
     );

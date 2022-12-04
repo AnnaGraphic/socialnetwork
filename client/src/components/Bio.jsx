@@ -37,13 +37,13 @@ export default class Bio extends Component {
                     //"success true"
                     this.setState({ editing: false });
                     //
-                    location.reload();
+                    this.props.bioUpdate(this.state.inputBio);
                 } else {
                     console.log("response handle submit 2", response);
                 }
             })
             .catch((err) => {
-                console.log("registration", err.message);
+                console.log("bio", err);
             });
     }
 

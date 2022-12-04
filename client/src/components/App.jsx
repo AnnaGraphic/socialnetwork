@@ -24,6 +24,16 @@ export default class App extends Component {
         this.setState({ isUploaderVisible: false });
     }
 
+    bioUpdate(bio) {
+        //console.log("bio uppdate", bio);
+        this.setState({
+            currentUser: {
+                ...this.state.currentUser,
+                bio: bio,
+            },
+        });
+    }
+
     profilePicUploaded(url) {
         //console.log("profilePic", url);
         this.setState(
@@ -64,6 +74,7 @@ export default class App extends Component {
                 <Profile
                     clickHandler={this.openUploader}
                     user={this.state.currentUser}
+                    bioUpdate={(bio) => this.bioUpdate(bio)}
                 ></Profile>
 
                 {this.state.isUploaderVisible && (
