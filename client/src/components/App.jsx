@@ -54,9 +54,13 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <header>
+                <div className="navbar">
                     <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
-                </header>
+                    <ProfilePic
+                        clickHandler={this.openUploader}
+                        user={this.state.currentUser}
+                    ></ProfilePic>
+                </div>
                 <Profile
                     clickHandler={this.openUploader}
                     user={this.state.currentUser}
