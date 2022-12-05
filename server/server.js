@@ -1,6 +1,7 @@
 //require("dotnv").config():
 const express = require("express");
 const {
+    findUsersByName,
     updateBio,
     insertRegistration,
     findUserByEmail,
@@ -203,6 +204,15 @@ app.post("/editbio", (req, res) => {
             // uh oh
             console.log(err);
         });
+});
+
+// +++ search pandas +++
+app.post("/searchpanda", (req, res) => {
+    console.log("/searchpanda", req.body);
+    findUsersByName(req.body.searchPanda).then((users) => {
+        console.log("searchpandas users", users);
+        res.json({ users, success: true });
+    });
 });
 
 // +++ all routes +++
