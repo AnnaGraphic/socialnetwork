@@ -3,6 +3,8 @@ import Logo from "./Logo";
 import ProfilePic from "./ProfilePic";
 import Upload from "./Upload.jsx";
 import Profile from "./Profile.jsx";
+import FindPandas from "./FindPandas.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -71,11 +73,25 @@ export default class App extends Component {
                         user={this.state.currentUser}
                     ></ProfilePic>
                 </div>
-                <Profile
-                    clickHandler={this.openUploader}
-                    user={this.state.currentUser}
-                    bioUpdate={(bio) => this.bioUpdate(bio)}
-                ></Profile>
+                <BrowserRouter>
+                    <Routes>
+                        <Route
+                            exact
+                            path="/"
+                            element={
+                                <Profile
+                                    clickHandler={this.openUploader}
+                                    user={this.state.currentUser}
+                                    bioUpdate={(bio) => this.bioUpdate(bio)}
+                                ></Profile>
+                            }
+                        ></Route>
+                        <Route
+                            path="/users"
+                            element={<FindPandas></FindPandas>}
+                        ></Route>
+                    </Routes>
+                </BrowserRouter>
 
                 {this.state.isUploaderVisible && (
                     <Upload

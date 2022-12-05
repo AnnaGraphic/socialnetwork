@@ -1,4 +1,5 @@
 import { Component } from "react";
+import SubmitButton from "./SubmitButton";
 export default class Bio extends Component {
     constructor(props) {
         super(props);
@@ -21,32 +22,6 @@ export default class Bio extends Component {
         });
     }
 
-    handleSubmit() {
-        console.log("bio handle submit", this.state.inputBio);
-        fetch("/editbio", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ inputBio: this.state.inputBio }),
-        })
-            .then((res) => res.json())
-            .then((response) => {
-                console.log("response handle submit", response);
-                if (response.success) {
-                    //"success true"
-                    this.setState({ editing: false });
-                    //
-                    this.props.bioUpdate(this.state.inputBio);
-                } else {
-                    console.log("response handle submit 2", response);
-                }
-            })
-            .catch((err) => {
-                console.log("bio", err);
-            });
-    }
-
     render() {
         const bio = this.props.user?.bio || "";
         return (
@@ -67,9 +42,16 @@ export default class Bio extends Component {
                                 onChange={this.handleInputChange}
                                 placeholder="add a bio"
                             ></input>
-                            <button onClick={(e) => this.handleSubmit(e)}>
-                                save
-                            </button>
+                            <SubmitButton
+                                route="/editbio"
+                                payload={{ inputBio: this.state.inputBio }}
+                                onSuccess={() => {
+                                    this.setState({ editing: false });
+                                    this.props.bioUpdate(this.state.inputBio);
+                                }}
+                                onError={() => {}}
+                                text="save"
+                            ></SubmitButton>
                         </div>
                     )}
                 </div>

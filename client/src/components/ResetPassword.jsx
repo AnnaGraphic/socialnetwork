@@ -1,4 +1,5 @@
 import { Component } from "react";
+import SubmitButton from "./SubmitButton";
 // import { Link } from "react-router-dom";
 
 export default class Logout extends Component {
@@ -41,29 +42,29 @@ export default class Logout extends Component {
 
     // }
 
-    handleSubmit() {
-        console.log("submit the reset pwd form with this.state", this.state);
-        fetch("/resetpassword", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state),
-        })
-            .then((res) => res.json())
-            .then((response) => {
-                console.log("ResetWassword handle submit response", response);
-                if (response.success) {
-                    //what to do?
-                    this.setState({ display: "2nd step" });
-                    // needed when setState? -> location.reload();
-                } else {
-                    console.log(
-                        "Resetpassword handle submit2 response",
-                        response
-                    );
-                    this.setState({ error: "email not found", display: null });
-                }
-            });
-    }
+    // handleSubmit() {
+    //     console.log("submit the reset pwd form with this.state", this.state);
+    //     fetch("/resetpassword", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify(this.state),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((response) => {
+    //             console.log("ResetWassword handle submit response", response);
+    //             if (response.success) {
+    //                 //what to do?
+    //                 this.setState({ display: "2nd step" });
+    //                 // needed when setState? -> location.reload();
+    //             } else {
+    //                 console.log(
+    //                     "Resetpassword handle submit2 response",
+    //                     response
+    //                 );
+    //                 this.setState({ error: "email not found", display: null });
+    //             }
+    //         });
+    // }
 
     render() {
         return (
@@ -80,9 +81,23 @@ export default class Logout extends Component {
                 <div>
                     <p>submit for next steps</p>
                     <br />
-                    <button onClick={(e) => this.handleSubmit(e)}>
+                    <SubmitButton
+                        route="/editbio"
+                        payload={this.state}
+                        onSuccess={() => {
+                            this.setState({ display: "2nd step" });
+                        }}
+                        onError={() => {
+                            this.setState({
+                                error: "email not found",
+                                display: null,
+                            });
+                        }}
+                        text="submit"
+                    ></SubmitButton>
+                    {/* <button onClick={(e) => this.handleSubmit(e)}>
                         submit
-                    </button>
+                    </button> */}
                 </div>
             </div>
         );
