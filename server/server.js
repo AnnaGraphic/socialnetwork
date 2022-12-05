@@ -207,9 +207,10 @@ app.post("/editbio", (req, res) => {
 });
 
 // +++ search pandas +++
-app.post("/searchpanda", (req, res) => {
-    console.log("/searchpanda", req.body);
-    findUsersByName(req.body.searchPanda).then((users) => {
+app.get("/searchpanda/:q?", (req, res) => {
+    const searchQuery = req.params.q || "";
+    //console.log("searchQuery", searchQuery);
+    findUsersByName(searchQuery).then((users) => {
         console.log("searchpandas users", users);
         res.json({ users, success: true });
     });

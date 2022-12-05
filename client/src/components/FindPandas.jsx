@@ -1,8 +1,25 @@
 import SubmitButton from "./SubmitButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 function FindPandas(props) {
     const [search, setSearch] = useState("");
+    const [pandas, setPandas] = useState([]);
     console.log("Search ", search);
+
+    useEffect(() => {
+        fetch(`/searchpanda/${search}`)
+            .then((res) => res.json())
+            .then((response) => {
+                if (response) {
+                    //console.log("users on findPandas.jsx", response);
+                    //"success true"
+                    setPandas([...response.users]);
+                } else {
+                    //"success false"
+                }
+            });
+    });
+
     return (
         <div>
             <p>find pandas</p>
@@ -12,15 +29,36 @@ function FindPandas(props) {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="search panda ..."
             ></input>
-            <SubmitButton
+
+            {/* 
+                <SubmitButton
                 route="/searchpanda"
                 payload={{ searchPanda: search }}
                 onSuccess={() => {
                     console.log("find pandas");
+                    //render results
                 }}
                 onError={() => {}}
                 text="search"
-            ></SubmitButton>
+            ></SubmitButton> */}
+
+            <div className="searchresults">
+                <ul>
+                    {pandas.map((panda) => {
+                        return (
+                            <li key={panda.id}>
+                                <div className="profilePic">
+                                    <img
+                                        src={panda.profilepic_url}
+                                        alt={`${panda.first_name} ${panda.last_name}`}
+                                    />
+                                </div>
+                                <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
         </div>
     );
 }
