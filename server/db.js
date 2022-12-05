@@ -96,7 +96,22 @@ function updateBio({ bio, id }) {
         });
 }
 
+function findUsersByName(name) {
+    console.log("name", name);
+    return db
+        .query("SELECT * FROM users WHERE first_name ILIKE $1", [name + "%"])
+        .then((results) => {
+            console.log("query findUserbyName: ", results.rows);
+            if (results.rows.length == 0) {
+                throw new Error("upsi");
+            }
+            return results.rows;
+        })
+        .catch((err) => console.log(err));
+}
+
 module.exports = {
+    findUsersByName,
     updateBio,
     findUserById,
     insertRegistration,
