@@ -1,10 +1,11 @@
-import SubmitButton from "./SubmitButton";
+//import SubmitButton from "./SubmitButton";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function FindPandas(props) {
     const [search, setSearch] = useState("");
     const [pandas, setPandas] = useState([]);
-    console.log("Search ", search);
+    // console.log("Search ", search);
 
     useEffect(() => {
         fetch(`/searchpanda/${search}`)
@@ -48,10 +49,12 @@ function FindPandas(props) {
                         return (
                             <li key={panda.id}>
                                 <div className="profilePic">
-                                    <img
-                                        src={panda.profilepic_url}
-                                        alt={`${panda.first_name} ${panda.last_name}`}
-                                    />
+                                    <Link to={`/user/${panda.id}`}>
+                                        <img
+                                            src={panda.profilepic_url}
+                                            alt={`${panda.first_name} ${panda.last_name}`}
+                                        />
+                                    </Link>
                                 </div>
                                 <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
                             </li>
