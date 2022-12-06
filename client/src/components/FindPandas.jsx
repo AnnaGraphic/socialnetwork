@@ -51,7 +51,10 @@ function FindPandas(props) {
                                 <div className="profilePic">
                                     <Link to={`/user/${panda.id}`}>
                                         <img
-                                            src={panda.profilepic_url}
+                                            src={
+                                                panda.profilepic_url ||
+                                                "/default_usericon_1.png"
+                                            }
                                             alt={`${panda.first_name} ${panda.last_name}`}
                                         />
                                     </Link>
