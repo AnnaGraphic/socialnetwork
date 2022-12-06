@@ -211,8 +211,18 @@ app.get("/searchpanda/:q?", (req, res) => {
     const searchQuery = req.params.q || "";
     //console.log("searchQuery", searchQuery);
     findUsersByName(searchQuery).then((users) => {
-        console.log("searchpandas users", users);
+        //console.log("searchpandas users", users);
         res.json({ users, success: true });
+    });
+});
+
+// +++ fetch other panda's profile +++
+app.get("/user/:id", (req, res) => {
+    const searchQuery = req.params.id;
+    //console.log("params searchQuery", req.params);
+    findUserById(searchQuery).then((user) => {
+        console.log("searchpandas users", user);
+        res.json({ user, success: true });
     });
 });
 
