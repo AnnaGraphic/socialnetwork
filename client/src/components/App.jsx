@@ -4,6 +4,7 @@ import ProfilePic from "./ProfilePic";
 import Upload from "./Upload.jsx";
 import Profile from "./Profile.jsx";
 import FindPandas from "./FindPandas.jsx";
+import OtherProfile from "./OtherProfile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
@@ -89,6 +90,12 @@ export default class App extends Component {
                         <Route
                             path="/users"
                             element={<FindPandas></FindPandas>}
+                        ></Route>
+                        <Route
+                            path="/user/:id"
+                            element={<OtherProfile></OtherProfile>}
+                            //needs id to check if its the own profile
+                            user={this.state.currentUser}
                         ></Route>
                     </Routes>
                 </BrowserRouter>
