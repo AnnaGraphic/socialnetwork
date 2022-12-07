@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS reset_code;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -17,3 +18,13 @@ CREATE TABLE reset_code (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email VARCHAR(255) NOT NULL --UNIQUE necessary?
 );
+
+
+CREATE TABLE connections (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL REFERENCES users(id),
+    recipient_id INTEGER NOT NULL REFERENCES users(id),
+    accepted BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT current_timestamp
+);
+
