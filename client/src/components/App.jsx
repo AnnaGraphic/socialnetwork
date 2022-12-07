@@ -20,7 +20,7 @@ export default class App extends Component {
     }
     // +++ methods +++
     openUploader() {
-        console.log("openUploader");
+        //console.log("openUploader");
         this.setState({ isUploaderVisible: true });
     }
     closeUploader() {
@@ -92,7 +92,7 @@ export default class App extends Component {
                             element={<FindPandas></FindPandas>}
                         ></Route>
                         <Route
-                            path="/user/:id"
+                            path="/userprofile/:id"
                             element={<OtherProfile></OtherProfile>}
                             //needs id to check if its the own profile
                             user={this.state.currentUser}
