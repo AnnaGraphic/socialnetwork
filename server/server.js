@@ -8,6 +8,7 @@ const {
     authenticateUser,
     findUserById,
     addProfilePic,
+    getConnectionStatus,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -221,10 +222,46 @@ app.get("/user/:id", (req, res) => {
     const searchQuery = req.params.id;
     //console.log("params searchQuery", req.params);
     findUserById(searchQuery).then((user) => {
-        console.log("searchpandas users", user);
+        // console.log("searchpandas users", user);
         res.json({ user, success: true });
     });
 });
+
+// +++ MultiButton routes +++
+
+// +++ MultiButton checking state of connection +++
+app.get("/connectionstatus/:user2", (req, res) => {
+    console.log("freundschaftsstatus erfragen", req.params.user2);
+    getConnectionStatus(req.session.userId, req.params.user2).then(
+        (connectionstatus) => {
+            console.log("/connectionStatus ", connectionstatus);
+            if (connectionstatus.rows.length === 0) {
+                //button text: freundschaftsanfrage
+                connectionstatus.connectionstatus = "noconnection";
+                connectionstatus.buttonText = "add contact";
+            } else {
+                if (connectionstatus.rows[0].sender_id === req.session.userId) {
+                    //connectionStatus "gestellt"
+                    connectionstatus.connectionstatus = "pending";
+                    connectionstatus.buttonText = "pending";
+                } else {
+                    //  connectionStatus "recieved";
+                    connectionstatus.connectionstatus = "recieved";
+                    connectionstatus.buttonText = "accept request";
+                }
+                if (connectionstatus.rows[0].accepted) {
+                    //   connectionStatus "connected";
+                    connectionstatus.connectionstatus = "connected";
+                    connectionstatus.buttonText = "end connection";
+                }
+            }
+            console.log("connectionstatus", connectionstatus);
+            res.json({ connectionstatus, buttonText });
+        }
+    );
+});
+
+//put route - update? false to true
 
 // +++ all routes +++
 
