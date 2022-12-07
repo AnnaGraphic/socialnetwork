@@ -97,7 +97,7 @@ function updateBio({ bio, id }) {
 }
 
 function findUsersByName(name) {
-    console.log("name", name);
+    // console.log("name", name);
     return db
         .query(
             "SELECT * FROM users WHERE first_name ILIKE $1 OR last_name ILIKE $1",
@@ -113,6 +113,23 @@ function findUsersByName(name) {
         .catch((err) => console.log(err));
 }
 
+function getConnectionStatus(user1, user2) {
+    console.log("db getConnectionStatus user 1 user2", user1, user2);
+    return db
+        .query(
+            `SELECT * FROM connections
+        WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)`,
+            [user1, user2]
+        )
+        .then((results) => {
+            console.log("db getConnectionStatus result", results);
+
+            return results;
+        })
+        .catch((err) => console.log(err));
+}
+
 module.exports = {
     findUsersByName,
     updateBio,
@@ -121,4 +138,5 @@ module.exports = {
     findUserByEmail,
     authenticateUser,
     addProfilePic,
+    getConnectionStatus,
 };
