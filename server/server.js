@@ -9,12 +9,15 @@ const {
     findUserById,
     addProfilePic,
     getConnectionStatus,
+    addConnectionRequest,
+    deleteConnection,
+    updateConnection,
 } = require("./db");
 const app = express();
 const compression = require("compression");
 const path = require("path");
 const fs = require("fs");
-//3000 wil proxy on 3001
+//3000 will proxy on 3001
 const { PORT = 3001 } = process.env;
 const { SECRET } = process.env;
 //ses-creds not working
@@ -22,8 +25,6 @@ const ses = require("./ses");
 const { uploader } = require("./multer");
 const { s3 } = require("./s3");
 const { AppIntegrations } = require("aws-sdk");
-
-// console.log("s3", s3);
 
 //COOKIES
 const cookieParser = require("cookie-parser");
@@ -218,7 +219,7 @@ app.get("/searchpanda/:q?", (req, res) => {
 });
 
 // +++ fetch other panda's profile +++
-app.get("/user/:id", (req, res) => {
+app.get("/userprofile/:id", (req, res) => {
     const searchQuery = req.params.id;
     //console.log("params searchQuery", req.params);
     findUserById(searchQuery).then((user) => {
@@ -231,37 +232,59 @@ app.get("/user/:id", (req, res) => {
 
 // +++ MultiButton checking state of connection +++
 app.get("/connectionstatus/:user2", (req, res) => {
-    console.log("freundschaftsstatus erfragen", req.params.user2);
-    getConnectionStatus(req.session.userId, req.params.user2).then(
-        (connectionstatus) => {
-            console.log("/connectionStatus ", connectionstatus);
-            if (connectionstatus.rows.length === 0) {
-                //button text: freundschaftsanfrage
-                connectionstatus.connectionstatus = "noconnection";
-                connectionstatus.buttonText = "add contact";
+    // console.log("freundschaftsstatus erfragen", req.params.user2);
+    getConnectionStatus(req.session.userId, req.params.user2).then((result) => {
+        let connectionstatus, buttonText;
+        //console.log("/connectionStatus ", connectionstatus);
+        if (result.length === 0) {
+            //button text: anfrage
+            //console.log("connectionstat: rows.length === 0");
+            connectionstatus = "noconnection";
+            buttonText = "add contact";
+        } else {
+            if (result.rows[0].sender_id === req.session.userId) {
+                //connectionStatus "gestellt"
+                connectionstatus = "pending";
+                buttonText = "pending";
             } else {
-                if (connectionstatus.rows[0].sender_id === req.session.userId) {
-                    //connectionStatus "gestellt"
-                    connectionstatus.connectionstatus = "pending";
-                    connectionstatus.buttonText = "pending";
-                } else {
-                    //  connectionStatus "recieved";
-                    connectionstatus.connectionstatus = "recieved";
-                    connectionstatus.buttonText = "accept request";
-                }
-                if (connectionstatus.rows[0].accepted) {
-                    //   connectionStatus "connected";
-                    connectionstatus.connectionstatus = "connected";
-                    connectionstatus.buttonText = "end connection";
-                }
+                //  connectionStatus "recieved";
+                connectionstatus = "recieved";
+                buttonText = "accept request";
             }
-            console.log("connectionstatus", connectionstatus);
-            res.json({ connectionstatus, buttonText });
+            if (result.rows[0].accepted) {
+                //   connectionStatus "connected";
+                connectionstatus = "connected";
+                buttonText = "end connection";
+            }
+        }
+        //console.log("connectionstatus", connectionstatus, buttonText);
+        res.json({ connectionstatus, buttonText });
+    });
+});
+
+// +++ add connection request INSERT +++
+app.post("/contacts/:user2", (req, res) => {
+    addConnectionRequest(req.session.userId, req.params.user2).then(
+        (response) => {
+            console.log("/contacts/request", response);
         }
     );
 });
 
+// +++ delete connection +++
+app.delete("/contacts/:user2", (req, res) => {
+    deleteConnection(req.session.userId, req.params.user2).then((response) => {
+        console.log("/contacts/:user2", response);
+    });
+});
+
+// +++ accept request +++
 //put route - update? false to true
+app.delete("/contacts/:user2", (req, res) => {
+    updateConnection(req.session.userId, req.params.user2).then((response) => {
+        console.log("/contacts/:user2", response);
+    });
+});
 
 // +++ all routes +++
 

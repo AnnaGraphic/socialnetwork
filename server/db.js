@@ -123,11 +123,46 @@ function getConnectionStatus(user1, user2) {
             [user1, user2]
         )
         .then((results) => {
-            console.log("db getConnectionStatus result", results);
+            // console.log("db getConnectionStatus result", results);
 
-            return results;
+            return results.rows;
         })
         .catch((err) => console.log(err));
+}
+
+function addConnectionRequest(sender, recipient) {
+    return db
+        .query(
+            `INSERT INTO connections (sender_id, recipient_id) VALUES ($1, $2) RETURNING *`,
+            [sender, recipient]
+        )
+        .then((result) => {
+            console.log(
+                "addConnectionRequest",
+                result,
+                "result.rows[0]",
+                result.rows[0]
+            );
+            return result.rows[0];
+        })
+        .catch((err) => console.log(err));
+}
+
+function deleteConnection(user1, user2) {
+    return db.query(
+        `DELETE FROM connections WHERE (sender_id = $1 AND recipient_id = $2)
+        OR (sender_id = $2 AND recipient_id = $1)`,
+        [user1, user2]
+    );
+}
+
+function updateConnection(sender, recipient) {
+    return db.query(
+        `UPDATE connections 
+            SET accepted=true WHERE (sender_id = $1 AND recipient_id = $2)
+    RETURNING *`,
+        [sender, recipient]
+    );
 }
 
 module.exports = {
@@ -139,4 +174,7 @@ module.exports = {
     authenticateUser,
     addProfilePic,
     getConnectionStatus,
+    addConnectionRequest,
+    deleteConnection,
+    updateConnection,
 };
