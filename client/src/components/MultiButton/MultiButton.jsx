@@ -24,10 +24,6 @@ export default function MultiButton(props) {
     }, []);
 
     function handleClick() {
-        console.log(
-            "handleClick connectionStatus:",
-            connectionStatus["buttonText"]
-        );
         if (connectionStatus.connectionstatus === "noconnection") {
             fetch(`/contacts/${id}`, {
                 method: "POST",
@@ -37,7 +33,9 @@ export default function MultiButton(props) {
                 method: "DELETE",
             });
         } else if (connectionStatus.connectionstatus === "recieved") {
-            //        accept
+            fetch(`/contacts/${id}`, {
+                method: "PUT",
+            });
         } else if (connectionStatus.connectionstatus === "connected") {
             fetch(`/contacts/${id}`, {
                 method: "DELETE",
@@ -45,7 +43,10 @@ export default function MultiButton(props) {
         }
 
         // a row would be inserted with the ids of the sender and receiver in the appropriate columns and the boolean set to false
-        console.log("handleClick");
+        console.log(
+            "handleClick connectionStatus: 1234",
+            connectionStatus.connectionstatus
+        );
     }
 
     return <button onClick={handleClick}>{connectionStatus.buttonText}</button>;

@@ -242,22 +242,26 @@ app.get("/connectionstatus/:user2", (req, res) => {
             connectionstatus = "noconnection";
             buttonText = "add contact";
         } else {
-            if (result.rows[0].sender_id === req.session.userId) {
-                //connectionStatus "gestellt"
-                connectionstatus = "pending";
-                buttonText = "pending";
-            } else {
+            if (result.sender_id === req.session.userId) {
                 //  connectionStatus "recieved";
                 connectionstatus = "recieved";
                 buttonText = "accept request";
+            } else {
+                //connectionStatus "gestellt"
+                connectionstatus = "pending";
+                buttonText = "pending";
             }
-            if (result.rows[0].accepted) {
+            if (result.accepted) {
                 //   connectionStatus "connected";
                 connectionstatus = "connected";
                 buttonText = "end connection";
             }
         }
-        //console.log("connectionstatus", connectionstatus, buttonText);
+        console.log(
+            "connectionstatus in get req",
+            connectionstatus,
+            buttonText
+        );
         res.json({ connectionstatus, buttonText });
     });
 });
@@ -280,7 +284,7 @@ app.delete("/contacts/:user2", (req, res) => {
 
 // +++ accept request +++
 //put route - update? false to true
-app.delete("/contacts/:user2", (req, res) => {
+app.put("/contacts/:user2", (req, res) => {
     updateConnection(req.session.userId, req.params.user2).then((response) => {
         console.log("/contacts/:user2", response);
     });
