@@ -11,7 +11,7 @@ const {
     getConnectionStatus,
     addConnectionRequest,
     deleteConnection,
-    updateConnection,
+    acceptConnection,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -219,7 +219,7 @@ app.get("/searchpanda/:q?", (req, res) => {
 });
 
 // +++ fetch other panda's profile +++
-app.get("/userprofile/:id", (req, res) => {
+app.get("/api/userprofile/:id", (req, res) => {
     const searchQuery = req.params.id;
     //console.log("params searchQuery", req.params);
     findUserById(searchQuery).then((user) => {
@@ -231,7 +231,7 @@ app.get("/userprofile/:id", (req, res) => {
 // +++ MultiButton routes +++
 
 // +++ MultiButton checking state of connection +++
-app.get("/connectionstatus/:user2", (req, res) => {
+app.get("/api/connectionstatus/:user2", (req, res) => {
     // console.log("freundschaftsstatus erfragen", req.params.user2);
     getConnectionStatus(req.session.userId, req.params.user2).then((result) => {
         let connectionstatus, buttonText;
@@ -268,7 +268,7 @@ app.get("/connectionstatus/:user2", (req, res) => {
 });
 
 // +++ add connection request INSERT +++
-app.post("/contacts/:user2", (req, res) => {
+app.post("/api/contacts/:user2", (req, res) => {
     addConnectionRequest(req.session.userId, req.params.user2).then(
         (response) => {
             console.log("post /contacts/request", response);
@@ -277,7 +277,7 @@ app.post("/contacts/:user2", (req, res) => {
 });
 
 // +++ delete connection +++
-app.delete("/contacts/:user2", (req, res) => {
+app.delete("/api/contacts/:user2", (req, res) => {
     deleteConnection(req.session.userId, req.params.user2).then((response) => {
         console.log("delete /contacts/:user2", response);
     });
@@ -285,8 +285,8 @@ app.delete("/contacts/:user2", (req, res) => {
 
 // +++ accept request +++
 //put route - update? false to true
-app.put("/contacts/:user2", (req, res) => {
-    updateConnection(req.session.userId, req.params.user2).then((response) => {
+app.put("/api/contacts/:user2", (req, res) => {
+    acceptConnection(req.session.userId, req.params.user2).then((response) => {
         console.log(" put /contacts/:user2", response);
     });
 });

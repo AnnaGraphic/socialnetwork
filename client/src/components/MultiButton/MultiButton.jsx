@@ -10,7 +10,7 @@ export default function MultiButton(props) {
     });
 
     useEffect(() => {
-        fetch(`/connectionstatus/${id}`)
+        fetch(`/api/connectionstatus/${id}`)
             .then((res) => res.json())
             .then((response) => {
                 if (response) {
@@ -25,19 +25,19 @@ export default function MultiButton(props) {
 
     function handleClick() {
         if (connectionStatus.connectionstatus === "noconnection") {
-            fetch(`/contacts/${id}`, {
+            fetch(`/api/contacts/${id}`, {
                 method: "POST",
             });
         } else if (connectionStatus.connectionstatus === "pending") {
-            fetch(`/contacts/${id}`, {
+            fetch(`/api/contacts/${id}`, {
                 method: "DELETE",
             });
         } else if (connectionStatus.connectionstatus === "recieved") {
-            fetch(`/contacts/${id}`, {
+            fetch(`/api/contacts/${id}`, {
                 method: "PUT",
             });
         } else if (connectionStatus.connectionstatus === "connected") {
-            fetch(`/contacts/${id}`, {
+            fetch(`/api/contacts/${id}`, {
                 method: "DELETE",
             });
         }

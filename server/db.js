@@ -156,10 +156,10 @@ function deleteConnection(user1, user2) {
     );
 }
 
-function updateConnection(sender, recipient) {
+function acceptConnection(sender, recipient) {
     return db.query(
         `UPDATE connections 
-            SET accepted=true WHERE (sender_id = $1 AND recipient_id = $2)
+            SET accepted=true WHERE (sender_id = $1 AND recipient_id = $2) OR (sender_id = $2 AND recipient_id = $1)
     RETURNING *`,
         [sender, recipient]
     );
@@ -176,5 +176,5 @@ module.exports = {
     getConnectionStatus,
     addConnectionRequest,
     deleteConnection,
-    updateConnection,
+    acceptConnection,
 };
