@@ -235,26 +235,27 @@ app.get("/connectionstatus/:user2", (req, res) => {
     // console.log("freundschaftsstatus erfragen", req.params.user2);
     getConnectionStatus(req.session.userId, req.params.user2).then((result) => {
         let connectionstatus, buttonText;
-        //console.log("/connectionStatus ", connectionstatus);
+        console.log("/connectionStatus ", result);
         if (result.length === 0) {
             //button text: anfrage
             //console.log("connectionstat: rows.length === 0");
             connectionstatus = "noconnection";
             buttonText = "add contact";
         } else {
-            if (result.sender_id === req.session.userId) {
-                //  connectionStatus "recieved";
-                connectionstatus = "recieved";
-                buttonText = "accept request";
-            } else {
-                //connectionStatus "gestellt"
-                connectionstatus = "pending";
-                buttonText = "pending";
-            }
-            if (result.accepted) {
+            if (result[0].accepted) {
                 //   connectionStatus "connected";
                 connectionstatus = "connected";
                 buttonText = "end connection";
+            } else {
+                if (result[0].sender_id === req.session.userId) {
+                    //connectionStatus "gestellt"
+                    connectionstatus = "pending";
+                    buttonText = "pending";
+                } else {
+                    //  connectionStatus "recieved";
+                    connectionstatus = "recieved";
+                    buttonText = "accept request";
+                }
             }
         }
         console.log(
@@ -270,7 +271,7 @@ app.get("/connectionstatus/:user2", (req, res) => {
 app.post("/contacts/:user2", (req, res) => {
     addConnectionRequest(req.session.userId, req.params.user2).then(
         (response) => {
-            console.log("/contacts/request", response);
+            console.log("post /contacts/request", response);
         }
     );
 });
@@ -278,7 +279,7 @@ app.post("/contacts/:user2", (req, res) => {
 // +++ delete connection +++
 app.delete("/contacts/:user2", (req, res) => {
     deleteConnection(req.session.userId, req.params.user2).then((response) => {
-        console.log("/contacts/:user2", response);
+        console.log("delete /contacts/:user2", response);
     });
 });
 
@@ -286,7 +287,7 @@ app.delete("/contacts/:user2", (req, res) => {
 //put route - update? false to true
 app.put("/contacts/:user2", (req, res) => {
     updateConnection(req.session.userId, req.params.user2).then((response) => {
-        console.log("/contacts/:user2", response);
+        console.log(" put /contacts/:user2", response);
     });
 });
 
