@@ -38,7 +38,7 @@ export default class Login extends Component {
                 console.log("response handle submit", response);
                 if (response.success) {
                     //"success true"
-                    location.reload();
+                    location.href = "/";
                 } else {
                     console.log("response handle submit 2", response);
                     //"success false"
