@@ -1,10 +1,12 @@
 import { Component } from "react";
 import Logo from "./Logo";
+import { Link } from "react-router-dom";
 import ProfilePic from "./ProfilePic";
 import Upload from "./Upload.jsx";
 import Profile from "./Profile.jsx";
 import FindPandas from "./FindPandas.jsx";
 import OtherProfile from "./OtherProfile";
+import Contacts from "./Contacts/Contacts";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
@@ -67,14 +69,16 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <div className="navbar">
-                    <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
-                    <ProfilePic
-                        clickHandler={this.openUploader}
-                        user={this.state.currentUser}
-                    ></ProfilePic>
-                </div>
                 <BrowserRouter>
+                    <div className="navbar">
+                        <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
+                        <Link to="/contacts">contacts</Link>.
+                        <ProfilePic
+                            clickHandler={this.openUploader}
+                            user={this.state.currentUser}
+                        ></ProfilePic>
+                    </div>
+
                     <Routes>
                         <Route
                             exact
@@ -97,6 +101,7 @@ export default class App extends Component {
                             //needs id to check if its the own profile
                             user={this.state.currentUser}
                         ></Route>
+                        <Route path="/contacts" element={<Contacts />}></Route>
                     </Routes>
                 </BrowserRouter>
 
