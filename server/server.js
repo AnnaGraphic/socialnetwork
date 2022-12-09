@@ -12,6 +12,7 @@ const {
     addConnectionRequest,
     deleteConnection,
     acceptConnection,
+    getRequestsAndContactList,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -132,7 +133,7 @@ app.post("/login", (req, res) => {
             res.json({ success: true });
         })
         .catch((err) => {
-            console.log("pwd mail", err.message);
+            console.log("login ", err);
             res.json({ success: false });
         });
 });
@@ -288,6 +289,14 @@ app.delete("/api/contacts/:user2", (req, res) => {
 app.put("/api/contacts/:user2", (req, res) => {
     acceptConnection(req.session.userId, req.params.user2).then((response) => {
         console.log(" put /contacts/:user2", response);
+    });
+});
+
+// +++ contact list +++
+app.get("/api/contactlist/", (req, res) => {
+    getRequestsAndContactList(req.session.userId).then((data) => {
+        console.log("/api/contactlist/ response", data);
+        res.json(data.rows);
     });
 });
 

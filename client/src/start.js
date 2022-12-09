@@ -23,8 +23,7 @@ fetch("/user/id.json")
         if (data.userId) {
             root.render(
                 <Provider store={store}>
-                    {" "}
-                    <App />{" "}
+                    <App />
                 </Provider>
             );
         } else {

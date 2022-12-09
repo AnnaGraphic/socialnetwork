@@ -2,18 +2,10 @@
 //     bioText: "",
 // };
 import { combineReducers } from "redux";
+import contactsReducer from "./contacts/contactsslice";
 
-const rootReducer = combineReducers({});
-
-// function rootReducer(state = initialState, action) {
-//     // if (action.type === "bioUpdated") {
-//     //     return {
-//     //         ...state,
-//     //         bioText: AuthenticatorAssertionResponse.payload,
-//     //     };
-//     // }
-//     // // in any case: return the STATE!
-//     // return state;
-// }
+const rootReducer = combineReducers({
+    contacts: contactsReducer,
+});
 
 export default rootReducer;

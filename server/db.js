@@ -165,6 +165,13 @@ function acceptConnection(sender, recipient) {
     );
 }
 
+function getRequestsAndContactList(userId) {
+    return db.query(
+        `SELECT * FROM connections WHERE (sender_id = $1 OR recipient_id = $1)`,
+        [userId]
+    );
+}
+
 module.exports = {
     findUsersByName,
     updateBio,
@@ -177,4 +184,5 @@ module.exports = {
     addConnectionRequest,
     deleteConnection,
     acceptConnection,
+    getRequestsAndContactList,
 };
