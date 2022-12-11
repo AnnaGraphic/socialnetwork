@@ -171,6 +171,15 @@ function getRequestsAndContactList(userId) {
         [userId]
     );
 }
+function getTenLatestMessages() {
+    return db
+        .query(`SELECT TOP 10 FROM messages WHERE ORDER BY timestamp`)
+        .then((result) => {
+            console.log("getTenLatestMessages", result.rows);
+            return result.rows;
+        })
+        .catch((err) => console.log(err));
+}
 
 module.exports = {
     findUsersByName,
@@ -185,4 +194,5 @@ module.exports = {
     deleteConnection,
     acceptConnection,
     getRequestsAndContactList,
+    getTenLatestMessages,
 };

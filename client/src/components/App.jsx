@@ -7,6 +7,7 @@ import Profile from "./Profile.jsx";
 import FindPandas from "./FindPandas.jsx";
 import OtherProfile from "./OtherProfile";
 import Contacts from "./Contacts/Contacts";
+import Chat from "./Chat/Chat";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
@@ -72,7 +73,9 @@ export default class App extends Component {
                 <BrowserRouter>
                     <div className="navbar">
                         <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
-                        <Link to="/contacts">contacts</Link>.
+                        <Link to="/users">find pandas</Link>
+                        <Link to="/chat">chat</Link>
+                        <Link to="/contacts">contacts</Link>
                         <ProfilePic
                             clickHandler={this.openUploader}
                             user={this.state.currentUser}
@@ -91,6 +94,7 @@ export default class App extends Component {
                                 ></Profile>
                             }
                         ></Route>
+                        <Route path="/chat" element={<Chat></Chat>}></Route>
                         <Route
                             path="/users"
                             element={<FindPandas></FindPandas>}

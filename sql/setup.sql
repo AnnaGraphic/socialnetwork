@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS reset_code;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS connections;
+DROP TABLE IF EXISTS messages;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -28,3 +30,9 @@ CREATE TABLE connections (
     created_at TIMESTAMP DEFAULT current_timestamp
 );
 
+CREATE TABLE messages(
+id SERIAL PRIMARY KEY,
+text VARCHAR NOT NULL,
+user_id INT REFERENCES users(id) NOT NULL,
+timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

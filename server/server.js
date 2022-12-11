@@ -13,6 +13,7 @@ const {
     deleteConnection,
     acceptConnection,
     getRequestsAndContactList,
+    getTenLatestMessages,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -329,7 +330,13 @@ io.on("connection", function (socket) {
     );
 
     //make the db call to get the last 10 messages, .then
-    //emit an event with this data
+    //emit an event with this data >> getTenLatestMessages
+    app.get("api/latestmessages/", (req, res) => {
+        getTenLatestMessages().then((data) => {
+            console.log("api/latestmessages/", data);
+            res.json(data.rows);
+        });
+    });
 
     //events instead of route! emmit an event to the erver
     //server saves mess in db, get message back, pushs to the last10mess arr
