@@ -7,11 +7,14 @@ import { createStore, applyMiddleware } from "redux";
 import * as immutableState from "redux-immutable-state-invariant";
 import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./redux/rootReducer";
+
+//socket.io
+import { init } from "./socket";
+
 const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(immutableState.default()))
 );
-
 const root = createRoot(document.querySelector("main"));
 
 fetch("/user/id.json")
@@ -21,6 +24,7 @@ fetch("/user/id.json")
         // the userId comes from the session on the server!
         // this means: the user is currently signed in!
         if (data.userId) {
+            init(store);
             root.render(
                 <Provider store={store}>
                     <App />

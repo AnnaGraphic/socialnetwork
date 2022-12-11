@@ -27,24 +27,35 @@ const { uploader } = require("./multer");
 const { s3 } = require("./s3");
 const { AppIntegrations } = require("aws-sdk");
 
+// +++ socket.io config +++
+const server = require("http").Server(app);
+//holds socket functionality
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+// cookie session
+// +++ end socket.io +++ instead of using addlisten = server.listen
+
 //COOKIES
-const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 
 //MIDDLEWARE
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
-app.use(cookieParser());
+
 // causes session-object to be stringified, base64 encoded , and written to a cookie,
 // then decode, parse and attach to req-obj
 //Tampering is prevented because of a second cookie that is auto added.
-app.use(
-    cookieSession({
-        secret: `${SECRET}`,
-        maxAge: 1000 * 60 ** 24 * 14,
-        name: "socialnetwork-cookie",
-    })
-);
+const cookieSessionMid = cookieSession({
+    secret: `${SECRET}`,
+    maxAge: 1000 * 60 ** 24 * 14,
+    name: "socialnetwork-cookie",
+});
+app.use(cookieSessionMid);
 
+io.use(function (socket, next) {
+    cookieSessionMid(socket.request, socket.request.res, next);
+});
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 // json parser
@@ -307,6 +318,35 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(PORT, function () {
+io.on("connection", function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+    const userId = socket.request.session.userId;
+
+    console.log(
+        `socket with the id ${socket.id} is now connected to ${userId}`
+    );
+
+    //make the db call to get the last 10 messages, .then
+    //emit an event with this data
+
+    //events instead of route! emmit an event to the erver
+    //server saves mess in db, get message back, pushs to the last10mess arr
+
+    socket.on("disconnect", () => {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+
+    // socket.on("thanks", function (data) {
+    //     console.log(data);
+    // });
+
+    socket.emit("welcome", {
+        message: "Welome. It is nice to see you",
+    });
+});
+
+server.listen(PORT, function () {
     console.log(`Express server listening on port ${PORT}`);
 });
