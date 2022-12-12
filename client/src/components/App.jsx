@@ -8,6 +8,7 @@ import FindPandas from "./FindPandas.jsx";
 import OtherProfile from "./OtherProfile";
 import Contacts from "./Contacts/Contacts";
 import Chat from "./Chat/Chat";
+import Logout from "./Logout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default class App extends Component {
@@ -80,6 +81,7 @@ export default class App extends Component {
                             clickHandler={this.openUploader}
                             user={this.state.currentUser}
                         ></ProfilePic>
+                        <Logout />
                     </div>
 
                     <Routes>

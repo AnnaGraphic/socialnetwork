@@ -152,17 +152,10 @@ app.post("/login", (req, res) => {
 
 // +++ logout +++
 
-app.post("/logout", (req, res) => {
-    console
-        .log("login POST:", req.body)
-        .then((user) => {
-            req.session = null;
-            res.json({ success: true });
-        })
-        .catch((err) => {
-            console.log("logout", err.message);
-            res.json({ success: false });
-        });
+app.get("/logout", (req, res) => {
+    console.log("logout");
+    req.session = null;
+    res.json({ success: true });
 });
 
 // +++ user +++
@@ -334,11 +327,11 @@ io.on("connection", function (socket) {
     app.get("api/latestmessages/", (req, res) => {
         getTenLatestMessages().then((data) => {
             console.log("api/latestmessages/", data);
-            res.json(data.rows);
+            // emit an event with this data
         });
     });
 
-    //events instead of route! emmit an event to the erver
+    //events instead of route! emmit an event to the server
     //server saves mess in db, get message back, pushs to the last10mess arr
 
     socket.on("disconnect", () => {

@@ -7,37 +7,22 @@ export default class Logout extends Component {
         this.state = {
             error: null,
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     // +++ methods +++
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         console.log("logout");
-        fetch("/logout", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.state),
-        })
-            .then((res) => res.json())
-            .then((response) => {
-                console.log("response logout", response);
-                // if (response.success) {
-                //     "success true"
-                //     location.reload();
-                // } else {
-                //     console.log("response logout 2", response);
-                //     "success false"
-                //     this.setState({ error: "something went wrong" });
-                //     update state to make error appear, also for catch
-                // }
-            });
+        fetch("/logout").then(location.replace("/"));
     }
 
     render() {
         return (
             <div>
-                <button onClick={(e) => this.handleSubmit(e)}>logout</button>
+                <div id="fakebutton" onClick={this.handleSubmit}>
+                    logout
+                </div>
             </div>
         );
     }
