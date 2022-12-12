@@ -19,7 +19,7 @@ function FindPandas(props) {
                     //"success false"
                 }
             });
-    });
+    }, []);
 
     return (
         <div>
@@ -48,8 +48,9 @@ function FindPandas(props) {
                     {pandas.map((panda) => {
                         return (
                             <li key={panda.id}>
+                                <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
                                 <div className="profilePic">
-                                    <Link to={`/user/${panda.id}`}>
+                                    <Link to={`/userprofile/${panda.id}`}>
                                         <img
                                             src={
                                                 panda.profilepic_url ||
@@ -59,7 +60,6 @@ function FindPandas(props) {
                                         />
                                     </Link>
                                 </div>
-                                <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
                             </li>
                         );
                     })}
