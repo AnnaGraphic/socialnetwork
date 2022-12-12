@@ -1,6 +1,8 @@
-export default function contactsReducer(contacts = [], action) {
+const initialState = { contacts: [] };
+
+export default function contactsReducer(contacts = initialState, action) {
     if (action.type === "set-all-requests-contacts") {
-        return action.payload.requests;
+        return { ...contacts, contacts: action.payload.requests };
     }
     return contacts;
 }

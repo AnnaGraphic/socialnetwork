@@ -110,17 +110,17 @@ function findUsersByName(name) {
             }
             return results.rows;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => conbuttonsole.log(err));
 }
 
-function getConnectionStatus(user1, user2) {
-    console.log("db getConnectionStatus user 1 user2", user1, user2);
+function getConnectionStatus(id, user2) {
+    console.log("db getConnectionStatus user 1 user2", id, user2);
     return db
         .query(
             `SELECT * FROM connections
-        WHERE (sender_id = $1 AND recipient_id = $2)
-        OR (sender_id = $2 AND recipient_id = $1)`,
-            [user1, user2]
+            WHERE (sender_id = $1 AND recipient_id = $2)
+            OR (sender_id = $2 AND recipient_id = $1)`,
+            [id, user2]
         )
         .then((results) => {
             // console.log("db getConnectionStatus result", results);
@@ -167,13 +167,24 @@ function acceptConnection(sender, recipient) {
 
 function getRequestsAndContactList(userId) {
     return db.query(
-        `SELECT * FROM connections WHERE (sender_id = $1 OR recipient_id = $1)`,
+        `SELECT users.id, first_name, last_name, accepted, profilepic_url FROM users 
+            JOIN connections
+            ON (accepted = true AND recipient_id =$1  AND users.id = connections.sender_id)
+            OR (accepted = true AND sender_id = $1 AND users.id = connections.recipient_id)
+            OR (accepted = false AND recipient_id = $1 AND users.id = connections.sender_id)
+            WHERE (sender_id = $1 OR recipient_id = $1)`,
         [userId]
     );
 }
-function getTenLatestMessages() {
+function getTenLatestMessages(limit) {
     return db
-        .query(`SELECT TOP 10 FROM messages WHERE ORDER BY timestamp`)
+        .query(
+            `SELECT users.first_name, users.last_name, users.profilepic_url, messages.text 
+        FROM users 
+        JOIN messages ON users.id = messages.user_id ORDER BY timestamp DESC
+        LIMIT $1`,
+            [limit]
+        )
         .then((result) => {
             console.log("getTenLatestMessages", result.rows);
             return result.rows;

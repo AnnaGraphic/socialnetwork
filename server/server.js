@@ -325,7 +325,7 @@ io.on("connection", function (socket) {
     //make the db call to get the last 10 messages, .then
     //emit an event with this data >> getTenLatestMessages
     app.get("api/latestmessages/", (req, res) => {
-        getTenLatestMessages().then((data) => {
+        getTenLatestMessages(10).then((data) => {
             console.log("api/latestmessages/", data);
             // emit an event with this data
         });

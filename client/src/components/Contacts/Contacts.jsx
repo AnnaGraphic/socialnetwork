@@ -9,25 +9,28 @@ export default function Contacts() {
     const contacts = useSelector((state) => {
         //can't put filter on null!
         return (
-            state.contacts &&
-            state.contacts.filter((contact) => contact.accepted)
+            state.contacts.contacts &&
+            state.contacts.contacts.filter((contact) => contact.accepted)
         );
     });
 
     const requests = useSelector((state) => {
         //can't put filter on null!
         return (
-            state.contacts &&
-            state.contacts.filter((contact) => !contact.accepted)
+            state.contacts.contacts &&
+            state.contacts.contacts.filter((contact) => !contact.accepted)
         );
     });
 
     useEffect(() => {
         fetch("/api/contactlist")
-            .then((result) => result.json())
+            .then((result) => {
+                console.log(result);
+                return result.json();
+            })
             .then((contacts) => {
-                dispatch(setRequestsAndContacts(contacts));
                 console.log("contacts", contacts);
+                dispatch(setRequestsAndContacts(contacts));
             });
     }, []);
 
@@ -40,26 +43,38 @@ export default function Contacts() {
                         console.log("panda after map", panda);
                         return (
                             <li key={panda.id}>
-                                <h5>{`${panda.id}`}</h5>
+                                <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
+                                <img
+                                    src={`${
+                                        panda.profilepic_url ||
+                                        "/default_usericon_1.png"
+                                    }`}
+                                    alt=""
+                                />
+                            </li>
+                        );
+                    })}
+            </ul>
+            <h6>contact requests</h6>
+            <ul>
+                {requests &&
+                    requests?.map((panda) => {
+                        return (
+                            <li key={panda.id}>
+                                <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
+                                <img
+                                    src={`${
+                                        panda.profilepic_url ||
+                                        "/default_usericon_1.png"
+                                    }`}
+                                    alt=""
+                                />
                                 {/* //maybe some info about contact 
                             //button unfriend / decline */}
                             </li>
                         );
                     })}
             </ul>
-            <h6>contact requests</h6>
-            {requests &&
-                requests?.map((panda) => {
-                    return (
-                        <ul>
-                            <li key={panda.id}>
-                                <h5>{`${panda.id}`}</h5>
-                                {/* //maybe some info about contact 
-                            //button unfriend / decline */}
-                            </li>
-                        </ul>
-                    );
-                })}
         </>
     );
 }
