@@ -14,6 +14,7 @@ const {
     acceptConnection,
     getRequestsAndContactList,
     getTenLatestMessages,
+    addMessage,
 } = require("./db");
 const app = express();
 const compression = require("compression");
@@ -304,6 +305,13 @@ app.get("/api/contactlist/", (req, res) => {
         res.json(data.rows);
     });
 });
+// +++ latest messages +++
+app.get("/api/latestmessages", (req, res) => {
+    getTenLatestMessages(10).then((data) => {
+        res.json(data);
+        // emit an event with this data
+    });
+});
 
 // +++ all routes +++
 
@@ -324,12 +332,6 @@ io.on("connection", function (socket) {
 
     //make the db call to get the last 10 messages, .then
     //emit an event with this data >> getTenLatestMessages
-    app.get("api/latestmessages/", (req, res) => {
-        getTenLatestMessages(10).then((data) => {
-            console.log("api/latestmessages/", data);
-            // emit an event with this data
-        });
-    });
 
     //events instead of route! emmit an event to the server
     //server saves mess in db, get message back, pushs to the last10mess arr
@@ -338,13 +340,25 @@ io.on("connection", function (socket) {
         console.log(`socket with the id ${socket.id} is now disconnected`);
     });
 
-    // socket.on("thanks", function (data) {
-    //     console.log(data);
-    // });
-
-    socket.emit("welcome", {
-        message: "Welome. It is nice to see you",
+    socket.on("chatMessage", (message) => {
+        console.log("message", message);
+        addMessage(message.message, socket.request.session.userId)
+            .then((message) => {
+                console.log("message", message);
+            })
+            .then((message) => {
+                io.emit("chatMessage", message);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     });
+
+    // socket
+    //     .on("thanks", function (data) {
+    //         console.log(data);
+    //     })
+    //     .then((result) => io.emit("chatMessage", result));
 });
 
 server.listen(PORT, function () {
