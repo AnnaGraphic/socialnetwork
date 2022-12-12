@@ -192,6 +192,25 @@ function getTenLatestMessages(limit) {
         .catch((err) => console.log(err));
 }
 
+///save message to table
+function addMessage(text, user_id) {
+    return db
+        .query(
+            `INSERT INTO messages (text, user_id) VALUES ($1, $2) RETURNING *`,
+            [text, user_id]
+        )
+        .then((result) => {
+            console.log(
+                "addConnectionRequest",
+                result,
+                "result.rows[0]",
+                result.rows[0]
+            );
+            return result.rows[0];
+        })
+        .catch((err) => console.log(err));
+}
+
 module.exports = {
     findUsersByName,
     updateBio,
@@ -206,4 +225,5 @@ module.exports = {
     acceptConnection,
     getRequestsAndContactList,
     getTenLatestMessages,
+    addMessage,
 };
