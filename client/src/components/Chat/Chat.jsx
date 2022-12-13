@@ -30,9 +30,8 @@ function Chat(props) {
     }, [messages]);
 
     const sendMessage = (e) => {
-        e.preventDefault();
         //console.log("messages", messages);
-
+        e.preventDefault();
         socket.emit("chatMessage", {
             message: text,
         });
