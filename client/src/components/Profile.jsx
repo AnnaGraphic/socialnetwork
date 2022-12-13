@@ -8,8 +8,11 @@ function Profile(props) {
                 <ProfilePic
                     clickHandler={props.clickHandler}
                     user={props.user}
+                    size="large"
                 />
-                <Bio user={props.user} bioUpdate={props.bioUpdate} />
+                <div className="bio">
+                    <Bio user={props.user} bioUpdate={props.bioUpdate} />
+                </div>
             </div>
         </div>
     );
