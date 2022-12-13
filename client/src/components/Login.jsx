@@ -23,7 +23,7 @@ export default class Login extends Component {
         });
     }
     handleSubmit() {
-        console.log("About to submit the login-form!");
+        //console.log("About to submit the login-form!");
         console.log(this.state);
         fetch("/login", {
             method: "POST",

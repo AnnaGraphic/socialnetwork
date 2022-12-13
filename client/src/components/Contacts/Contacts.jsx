@@ -69,8 +69,6 @@ export default function Contacts() {
                                     }`}
                                     alt=""
                                 />
-                                {/* //maybe some info about contact 
-                            //button unfriend / decline */}
                             </li>
                         );
                     })}

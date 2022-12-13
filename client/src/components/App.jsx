@@ -61,7 +61,7 @@ export default class App extends Component {
         fetch("/user")
             .then((res) => res.json())
             .then((user) => {
-                console.log("user", user);
+                //  console.log("user", user);
                 this.setState({
                     currentUser: user,
                 });
@@ -72,17 +72,34 @@ export default class App extends Component {
         return (
             <div className="App">
                 <BrowserRouter>
-                    <div className="navbar">
+                    <section className="navbar">
                         <Logo /> <h1> 🔥 🌟 💔 Panda inter pares 🦞 ✨ 💔</h1>
-                        <Link to="/users">find pandas</Link>
-                        <Link to="/chat">chat</Link>
-                        <Link to="/contacts">contacts</Link>
                         <ProfilePic
                             clickHandler={this.openUploader}
                             user={this.state.currentUser}
                         ></ProfilePic>
-                        <Logout />
-                    </div>
+                        <input id="menu-toggle" type="checkbox" />
+                        <label
+                            className="menu-button-container"
+                            htmlFor="menu-toggle"
+                        >
+                            <div className="menu-button"></div>
+                        </label>
+                        <ul className="menu">
+                            <li>
+                                <Link to="/users">find pandas</Link>
+                            </li>
+                            <li>
+                                <Link to="/chat">chat</Link>
+                            </li>
+                            <li>
+                                <Link to="/contacts">contacts</Link>
+                            </li>
+                            <li>
+                                <Logout />
+                            </li>
+                        </ul>
+                    </section>
 
                     <Routes>
                         <Route

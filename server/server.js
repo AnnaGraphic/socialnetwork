@@ -58,6 +58,7 @@ app.use(cookieSessionMid);
 io.use(function (socket, next) {
     cookieSessionMid(socket.request, socket.request.res, next);
 });
+
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 // json parser
@@ -154,9 +155,10 @@ app.post("/login", (req, res) => {
 // +++ logout +++
 
 app.get("/logout", (req, res) => {
-    console.log("logout");
+    console.log("server logout");
     req.session = null;
-    res.json({ success: true });
+    req.session.userId = null;
+    // res.json({ success: true });
 });
 
 // +++ user +++
@@ -165,7 +167,7 @@ app.get("/user", (req, res) => {
     const id = req.session.userId;
     console.log("get req in /user");
     findUserById(id).then((user) => {
-        console.log(user);
+        // console.log(user);
         res.json(user);
     });
 });
@@ -330,22 +332,17 @@ io.on("connection", function (socket) {
         `socket with the id ${socket.id} is now connected to ${userId}`
     );
 
-    //make the db call to get the last 10 messages, .then
-    //emit an event with this data >> getTenLatestMessages
-
     //events instead of route! emmit an event to the server
     //server saves mess in db, get message back, pushs to the last10mess arr
 
     socket.on("chatMessage", (message) => {
-        console.log("message", message);
         addMessage(message.message, socket.request.session.userId)
             .then((message) => {
-                //console.log("message", message);
                 findUserById(userId).then((result) => {
                     message.first_name = result.first_name;
                     message.last_name = result.last_name;
                     message.profilepic_url = result.profilepic_url;
-                    console.log("message YYY", message);
+                    //console.log("message YYY", message);
                     io.emit("chatMessage", message);
                 });
             })
@@ -359,6 +356,7 @@ io.on("connection", function (socket) {
     //         console.log(data);
     //     })
     //     .then((result) => io.emit("chatMessage", result));
+
     socket.on("disconnect", () => {
         console.log(`socket with the id ${socket.id} is now disconnected`);
     });

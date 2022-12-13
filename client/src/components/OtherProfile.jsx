@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import MultiButton from "./MultiButton/MultiButton";
 function OtherProfile(props) {
     const { id } = useParams();
-    console.log(id);
+    // console.log(id);
     //const navigate = useNavigate();
     const [user, setUser] = useState({});
 
     useEffect(() => {
-        fetch(`/user/${id}`)
+        fetch(`/api/userprofile/${id}`)
             .then((res) => res.json())
             .then((response) => {
-                console.log("response", response);
+                // console.log("response", response);
                 if (response.success) {
                     //console.log("other profile respone.user", response.user);
                     setUser(response.user);

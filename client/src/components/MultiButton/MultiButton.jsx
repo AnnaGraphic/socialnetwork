@@ -44,7 +44,7 @@ export default function MultiButton(props) {
 
         // a row would be inserted with the ids of the sender and receiver in the appropriate columns and the boolean set to false
         console.log(
-            "handleClick connectionStatus: 1234",
+            "handleClick connectionStatus: ",
             connectionStatus.connectionstatus
         );
     }

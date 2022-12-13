@@ -137,12 +137,12 @@ function addConnectionRequest(sender, recipient) {
             [sender, recipient]
         )
         .then((result) => {
-            console.log(
-                "addConnectionRequest",
-                result,
-                "result.rows[0]",
-                result.rows[0]
-            );
+            // console.log(
+            //     "addConnectionRequest",
+            //     result,
+            //     "result.rows[0]",
+            //     result.rows[0]
+            // );
             return result.rows[0];
         })
         .catch((err) => console.log(err));
@@ -186,7 +186,7 @@ function getTenLatestMessages(limit) {
             [limit]
         )
         .then((result) => {
-            console.log("getTenLatestMessages", result.rows);
+            //  console.log("getTenLatestMessages", result.rows);
             return result.rows;
         })
         .catch((err) => console.log(err));
