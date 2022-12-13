@@ -87,13 +87,13 @@ export default class App extends Component {
                         </label>
                         <ul className="menu">
                             <li>
-                                <Link to="/users">find pandas</Link>
+                                <Link to="/users">invenire pandas</Link>
                             </li>
                             <li>
-                                <Link to="/chat">chat</Link>
+                                <Link to="/chat">colloquium</Link>
                             </li>
                             <li>
-                                <Link to="/contacts">contacts</Link>
+                                <Link to="/contacts">contactus</Link>
                             </li>
                             <li>
                                 <Logout />

@@ -21,7 +21,7 @@ export default class Logout extends Component {
         return (
             <div>
                 <div id="fakebutton" onClick={this.handleSubmit}>
-                    logout
+                    exite
                 </div>
             </div>
         );

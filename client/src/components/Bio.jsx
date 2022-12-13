@@ -26,12 +26,12 @@ export default class Bio extends Component {
         const bio = this.props.user?.bio || "";
         return (
             <div>
-                <p>bio</p>
+                <p>vita</p>
                 <div>
                     {!this.state.editing && (
                         <div>
                             <div className="biotext">{bio}</div>
-                            <button onClick={this.editBio}>edit bio</button>
+                            <button onClick={this.editBio}>bene vita</button>
                         </div>
                     )}
                     {this.state.editing && (
@@ -40,7 +40,7 @@ export default class Bio extends Component {
                                 type="text"
                                 name="inputBio"
                                 onChange={this.handleInputChange}
-                                placeholder="add a bio"
+                                placeholder="adde vita"
                             ></input>
                             <SubmitButton
                                 route="/editbio"
@@ -50,7 +50,7 @@ export default class Bio extends Component {
                                     this.props.bioUpdate(this.state.inputBio);
                                 }}
                                 onError={() => {}}
-                                text="save"
+                                text="servo"
                             ></SubmitButton>
                         </div>
                     )}

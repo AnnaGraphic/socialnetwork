@@ -23,12 +23,12 @@ function FindPandas(props) {
 
     return (
         <div>
-            <p>find pandas</p>
+            <p>invenire pandas</p>
             <input
                 type="text"
                 name="searchPanda"
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="search panda ..."
+                placeholder="quaerere pandas ..."
             ></input>
 
             {/* 
