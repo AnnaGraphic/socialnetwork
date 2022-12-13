@@ -13,8 +13,8 @@ export default class Logout extends Component {
     // +++ methods +++
     handleSubmit(e) {
         e.preventDefault();
-        console.log("logout");
-        fetch("/logout").then(location.replace("/"));
+        console.log("client logout");
+        fetch("/logout").then(() => location.replace("/"));
     }
 
     render() {
