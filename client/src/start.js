@@ -24,7 +24,7 @@ fetch("/user/id.json")
         // the userId comes from the session on the server!
         // this means: the user is currently signed in!
         if (data.userId) {
-            init(store);
+            // init(store);
             root.render(
                 <Provider store={store}>
                     <App />
