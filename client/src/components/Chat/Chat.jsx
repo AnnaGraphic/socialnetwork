@@ -9,13 +9,7 @@ function Chat(props) {
     const [text, setText] = useState("");
     const elemRef = useRef(); //current
     const [messages, setMessages] = useState([]);
-
     useEffect(() => {
-        socket.on("chatMessage", (data) => {
-            console.log("data in useEffect Chat.js", data);
-            setMessages([...messages, data]);
-            console.log("messages ", messages);
-        });
         fetch("/api/latestmessages")
             .then((res) => res.json())
             .then((response) => {
@@ -24,8 +18,19 @@ function Chat(props) {
             });
     }, []);
 
+    useEffect(() => {
+        console.log("messages 1", messages);
+        socket.on("chatMessage", (data) => {
+            console.log("data in useEffect Chat.js", data);
+            const arr = [data, ...messages];
+            console.log("arr", arr);
+            setMessages(arr);
+        });
+    }, [messages]);
+
     const sendMessage = (e) => {
         e.preventDefault();
+        console.log("messages", messages);
 
         socket.emit("chatMessage", {
             message: text,
