@@ -121,8 +121,21 @@ h1 {
     font-size: large;
     font-family: "Solawy", bold;
 }
-p {
+h5 {
     font-size: medium;
+}
+p {
+    font-size: small;
+}
+a {
+    font-weight: bold;
+    color: darkslateblue;
+}
+#fakebutton {
+    font-weight: bold;
+    color: darkslateblue;
+    text-decoration: underline;
+    cursor: pointer;
 }
 ul {
     list-style-type: none;
@@ -147,6 +160,13 @@ ul {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+/* profile */
+
+/* contacts */
+.contacts {
+    padding: 1rem;
 }
 /* chat */
 .chatboard {
