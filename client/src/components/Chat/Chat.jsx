@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { socket } from "../../socket";
+//import { socket } from "../../socket";
 import SubmitButton from "../SubmitButton";
+import { io } from "socket.io-client";
+
+let socket = io.connect();
 
 function Chat(props) {
     const [text, setText] = useState("");
@@ -8,6 +11,11 @@ function Chat(props) {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
+        socket.on("chatMessage", (data) => {
+            console.log("data in useEffect Chat.js", data);
+            setMessages([...messages, data]);
+            console.log("messages ", messages);
+        });
         fetch("/api/latestmessages")
             .then((res) => res.json())
             .then((response) => {
@@ -18,17 +26,54 @@ function Chat(props) {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        console.log("text: ", text);
+
         socket.emit("chatMessage", {
             message: text,
         });
+        console.log("text: ", text);
+        setText("");
     };
 
     return (
         useState,
         (
-            <div className="main">
-                <p>chat</p>
+            <div className="chatboard">
+                <div id="chat-messages">
+                    <ul>
+                        {messages?.map((message, index) => {
+                            // console.log("message", message);
+                            return (
+                                <li key={index}>
+                                    <div className="chat">
+                                        <img
+                                            className="chatimg"
+                                            src={
+                                                message.profilepic_url ||
+                                                "/default_usericon_1.png"
+                                            }
+                                            alt={`${message.first_name} ${message.last_name}`}
+                                        />
+                                        <div className="chatmessage">
+                                            <div>
+                                                <p>
+                                                    <b>
+                                                        {message.first_name}
+                                                        &nbsp;
+                                                        {message.last_name}
+                                                        &nbsp;
+                                                    </b>
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p>{message.text}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
                 <div id="userinput">
                     <label htmlFor="message here ..."></label>
                     <textarea
@@ -48,32 +93,6 @@ function Chat(props) {
                     >
                         send
                     </button>
-                </div>
-                <div id="chat-messages" ref={elemRef}>
-                    <ul>
-                        {messages?.map((message) => {
-                            // console.log("message", message);
-                            return (
-                                <li key={message.id}>
-                                    <img
-                                        src={
-                                            message.profilepic_url ||
-                                            "/default_usericon_1.png"
-                                        }
-                                        alt={`${message.first_name} ${message.last_name}`}
-                                    />
-                                    <h5>
-                                        {message.first_name}
-                                        {message.last_name}
-                                    </h5>{" "}
-                                    <p> wrote: </p>
-                                    <div>
-                                        <p>{message.text}</p>
-                                    </div>
-                                </li>
-                            );
-                        })}
-                    </ul>
                 </div>
             </div>
         )

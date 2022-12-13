@@ -278,7 +278,7 @@ app.get("/api/connectionstatus/:user2", (req, res) => {
 app.post("/api/contacts/:user2", (req, res) => {
     addConnectionRequest(req.session.userId, req.params.user2).then(
         (response) => {
-            console.log("post /contacts/request", response);
+            // console.log("post /contacts/request", response);
         }
     );
 });
@@ -336,18 +336,18 @@ io.on("connection", function (socket) {
     //events instead of route! emmit an event to the server
     //server saves mess in db, get message back, pushs to the last10mess arr
 
-    socket.on("disconnect", () => {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
-
     socket.on("chatMessage", (message) => {
         console.log("message", message);
         addMessage(message.message, socket.request.session.userId)
             .then((message) => {
-                console.log("message", message);
-            })
-            .then((message) => {
-                io.emit("chatMessage", message);
+                //console.log("message", message);
+                findUserById(userId).then((result) => {
+                    message.first_name = result.first_name;
+                    message.last_name = result.last_name;
+                    message.profilepic_url = result.profilepic_url;
+                    console.log("message YYY", message);
+                    io.emit("chatMessage", message);
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -359,6 +359,9 @@ io.on("connection", function (socket) {
     //         console.log(data);
     //     })
     //     .then((result) => io.emit("chatMessage", result));
+    socket.on("disconnect", () => {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
 });
 
 server.listen(PORT, function () {
