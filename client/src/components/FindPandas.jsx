@@ -5,32 +5,33 @@ import { useState, useEffect } from "react";
 function FindPandas(props) {
     const [search, setSearch] = useState("");
     const [pandas, setPandas] = useState([]);
-    // console.log("Search ", search);
+    console.log("Search ", search);
 
     useEffect(() => {
         fetch(`/searchpanda/${search}`)
             .then((res) => res.json())
             .then((response) => {
                 if (response) {
-                    //console.log("users on findPandas.jsx", response);
+                    console.log("users on findPandas.jsx", response.users);
                     //"success true"
                     setPandas([...response.users]);
                 } else {
                     //"success false"
                 }
             });
-    }, []);
+    }, [search]);
 
     return (
         <div>
-            <p>invenire pandas</p>
-            <input
-                type="text"
-                name="searchPanda"
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="quaerere pandas ..."
-            ></input>
-
+            <div className="searchPandaInput">
+                <p>invenire pandas</p>
+                <input
+                    type="text"
+                    name="searchPanda"
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="quaerere pandas ..."
+                ></input>
+            </div>
             {/* 
                 <SubmitButton
                 route="/searchpanda"
@@ -47,7 +48,7 @@ function FindPandas(props) {
                 <ul>
                     {pandas.map((panda) => {
                         return (
-                            <li key={panda.id}>
+                            <li className="searchresult" key={panda.id}>
                                 <h5>{`${panda.first_name} ${panda.last_name}`}</h5>
                                 <div className="profilePic">
                                     <Link to={`/userprofile/${panda.id}`}>

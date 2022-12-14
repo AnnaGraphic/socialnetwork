@@ -123,9 +123,11 @@ h1 {
 }
 h5 {
     font-size: medium;
+    margin: 0.25rem;
 }
 p {
     font-size: small;
+    margin: 0.05rem;
 }
 a {
     font-weight: bold;
@@ -163,6 +165,13 @@ ul {
 }
 
 /* profile */
+/* find pandas */
+.searchPandaInput {
+    margin-left: 2rem;
+}
+.searchresult {
+    margin-top: 1.5rem;
+}
 
 /* contacts */
 .contacts {
