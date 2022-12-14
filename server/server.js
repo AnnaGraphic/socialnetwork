@@ -22,7 +22,7 @@ const path = require("path");
 const fs = require("fs");
 //3000 will proxy on 3001
 const { PORT = 3001 } = process.env;
-const { SECRET } = process.env;
+const { SECRET, WEBSITE } = process.env;
 //ses-creds not working
 const ses = require("./ses");
 const { uploader } = require("./multer");
@@ -34,12 +34,7 @@ const server = require("http").Server(app);
 //holds socket functionality
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
-        callback(
-            null,
-            req.headers.referer.startsWith(
-                "https://panda-inter-pares.onrender.com"
-            )
-        ),
+        callback(null, req.headers.referer.startsWith(WEBSITE)),
 });
 // cookie session
 // +++ end socket.io +++ instead of using addlisten = server.listen
