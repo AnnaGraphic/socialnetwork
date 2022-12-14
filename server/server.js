@@ -34,7 +34,12 @@ const server = require("http").Server(app);
 //holds socket functionality
 const io = require("socket.io")(server, {
     allowRequest: (req, callback) =>
-        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+        callback(
+            null,
+            req.headers.referer.startsWith(
+                "https://panda-inter-pares.onrender.com"
+            )
+        ),
 });
 // cookie session
 // +++ end socket.io +++ instead of using addlisten = server.listen
